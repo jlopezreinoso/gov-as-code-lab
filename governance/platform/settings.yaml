@@ -1,0 +1,13 @@
+# Settings esperados del workspace (N25 / GOV-HRD-002). gov_reconcile los compara con la Workspace Conf API
+# y escribe platform.platform_settings_baseline.
+# IMPORTANTE: validar los nombres exactos de las keys en tu workspace (cambian entre versiones).
+workspace:
+  - key: enableResultsDownloading
+    expected: false
+    justification: Evitar exfiltración de resultados fuera de UC
+  - key: enableExportNotebook
+    expected: false
+    justification: Evitar exportación de notebooks con datos
+  - key: enableTokensConfig
+    expected: true
+    justification: Gestión de tokens habilitada para aplicar expiración

@@ -1,0 +1,20 @@
+# Contrato de datos → inventory.data_contracts + inventory.contract_columns.
+# gov_reconcile compara este esquema contra information_schema.columns y registra drift.
+# Cambio incompatible (quitar/cambiar tipo) = nueva versión mayor (GOV-SCH-007).
+kind: contract
+contract_id: CTR-VENTAS-PEDIDOS
+version: "1.0.0"
+product_id: DP-VENTAS-PEDIDOS
+uc_object: ${data_catalog}.gold.pedidos
+status: VIGENTE
+compatibility: backward
+approved_by: grp-data-owners-ventas
+effective_from: 2026-11-01
+schema:
+  - {name: pedido_id,      type: STRING,        nullable: false, is_key: true, classification: internal}
+  - {name: cliente_id,     type: STRING,        nullable: false, classification: confidential}
+  - {name: email_cliente,  type: STRING,        nullable: true,  classification: restricted}
+  - {name: fecha_pedido,   type: DATE,          nullable: false, classification: internal}
+  - {name: monto_total,    type: "DECIMAL(18,2)", nullable: false, classification: internal}
+  - {name: estado,         type: STRING,        nullable: false, classification: internal,
+     allowed_values: [creado, pagado, enviado, cancelado]}

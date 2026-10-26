@@ -1,0 +1,25 @@
+# Databricks App de decisiones humanas (18 tablas de workflow humano).
+# Validar la sintaxis de "apps" en tu versión del CLI; si el ITSM es la fuente de las decisiones, usar gov_itsm_sync
+# para esas tablas y no ambos.
+resources:
+  apps:
+    gov_review:
+      name: gov-review-${bundle.target}
+      description: Decisiones humanas de gobierno (HITL, excepciones, recertificación, gates, incidentes)
+      source_code_path: ../apps/gov_review
+      config:
+        command: ["streamlit", "run", "app.py"]
+        env:
+          - name: GOV_CATALOG
+            value: ${var.gov_catalog}
+          - name: DATABRICKS_WAREHOUSE_ID
+            value_from: sql-warehouse
+      resources:
+        - name: sql-warehouse
+          description: Warehouse para leer y escribir el catálogo de gobierno
+          sql_warehouse:
+            id: ${var.warehouse_id}
+            permission: CAN_USE
+      permissions:
+        - group_name: ${var.readers_group}
+          level: CAN_USE

@@ -1,0 +1,19 @@
+# Políticas de retención. gov_retention purga las tablas etiquetadas con retention_policy = <policy_id>.
+kind: registry
+table: privacy.retention_policies
+keys: [policy_id]
+rows:
+  - policy_id: RET-GOV-EVENTS
+    data_class: Eventos técnicos del catálogo de gobierno
+    retention_days: 400          # > 1 año para cubrir auditorías anuales
+    archive_after_days: 0
+    delete_after_days: 400
+    legal_basis: Política POL-RET-001
+    ttl_mechanism: JOB
+  - policy_id: RET-VENTAS-TRANSACCIONAL
+    data_class: Transacciones de ventas
+    retention_days: 2555          # 7 años
+    archive_after_days: 1825
+    delete_after_days: 2555
+    legal_basis: Normativa tributaria local
+    ttl_mechanism: JOB

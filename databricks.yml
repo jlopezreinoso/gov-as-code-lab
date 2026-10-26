@@ -1,0 +1,63 @@
+# Bundle de Gobierno como Código (Declarative Automation Bundles).
+# Despliega código y YAML al workspace y define los 10 jobs de gobierno y la App de decisiones.
+bundle:
+  name: gov-as-code
+
+include:
+  - resources/*.yml
+
+variables:
+  gov_catalog:
+    description: Catálogo de gobierno (control plane)
+    default: gov_dev
+  data_catalog:
+    description: Catálogo de datos del proyecto que se gobierna
+    default: ventas_dev
+  owner_group:
+    description: Grupo dueño del catálogo de gobierno
+    default: grp-gov-admins
+  deployer_group:
+    description: Grupo de SPs que escriben DEFINICIONES (CI/CD)
+    default: grp-gov-deployers
+  runner_group:
+    description: Grupo de SPs que escriben RESULTADOS y EVENTOS (jobs y pipelines)
+    default: grp-gov-runners
+  app_group:
+    description: Grupo del SP de la App de decisiones humanas
+    default: grp-gov-app
+  readers_group:
+    description: Personas que consultan el catálogo de gobierno (solo lectura)
+    default: grp-gov-readers
+  auditors_group:
+    description: Auditores (evidence + READ METADATA)
+    default: grp-gov-auditors
+  warehouse_id:
+    description: SQL warehouse que usa la App
+    default: "<warehouse-id>"
+  git_commit:
+    description: Commit desplegado (lo inyecta el CI)
+    default: local
+  deployer_sp:
+    description: Application ID del service principal de despliegue (PROD)
+    default: ""
+  alert_email:
+    description: Destinatario de alertas y fallas de los jobs de gobierno
+    default: gobierno-datos@empresa.com
+
+targets:
+  dev:
+    mode: development
+    default: true
+    workspace:
+      host: https://<workspace-dev>.cloud.databricks.com   # reemplazar
+
+  prd:
+    mode: production
+    workspace:
+      host: https://<workspace-prd>.cloud.databricks.com   # reemplazar
+      root_path: /Workspace/Shared/.bundle/${bundle.name}/${bundle.target}
+    variables:
+      gov_catalog: gov_prd
+      data_catalog: ventas_prd
+    run_as:
+      service_principal_name: ${var.deployer_sp}   # GOV-DEV-001: PROD solo con el SP de despliegue

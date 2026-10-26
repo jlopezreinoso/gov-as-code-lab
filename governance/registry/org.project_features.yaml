@@ -1,0 +1,9 @@
+# Características marcadas en el CHECKLIST_CONFIGURADOR para el proyecto.
+kind: registry
+table: org.project_features
+keys: [project_id, feature_code]
+rows:
+  - {project_id: PRJ-VENTAS, feature_code: PII,   enabled: true, justification: Datos de clientes}
+  - {project_id: PRJ-VENTAS, feature_code: SEM,   enabled: true, justification: KPIs compartidos de ventas}
+  - {project_id: PRJ-VENTAS, feature_code: BI,    enabled: true, justification: Power BI corporativo}
+  - {project_id: PRJ-VENTAS, feature_code: CDC,   enabled: true, justification: Pedidos desde el ERP}

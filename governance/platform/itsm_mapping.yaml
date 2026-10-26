@@ -1,0 +1,32 @@
+# Mapeo ITSM → tablas de gobierno (job gov_itsm_sync). Ejemplo con la Table API de ServiceNow.
+# El token vive en un secreto (nunca en Git). Ajustar rutas, filtros y campos a tu instancia.
+base_url: https://<instancia>.service-now.com/api/now/table
+secret_scope: gov
+secret_key: itsm_token
+results_path: result
+flows:
+  - table: risk_control.exceptions
+    path: /u_gov_exception
+    params: {sysparm_query: "u_state=approved^sys_updated_on>=javascript:gs.daysAgoStart(1)"}
+    keys: [exception_id]
+    fields:
+      number: exception_id
+      u_control_id: control_id
+      u_asset: asset
+      short_description: reason
+      opened_by.display_value: requested_by
+      u_approved_by.display_value: approved_by
+      u_compensating_control: compensating_control
+      u_start_date: start_date
+      u_expiration_date: expiration_date
+      u_residual_risk: residual_risk
+    constants: {status: APROBADA}
+  - table: access.access_reviews
+    path: /u_gov_access_review
+    params: {sysparm_query: "u_decision!=pendiente^sys_updated_on>=javascript:gs.daysAgoStart(1)"}
+    keys: [review_id]
+    fields:
+      u_review_id: review_id
+      u_decision: decision
+      u_reviewer.display_value: reviewer
+      sys_updated_on: decided_at

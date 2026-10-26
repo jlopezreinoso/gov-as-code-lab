@@ -1,0 +1,59 @@
+# CI/CD de Gobierno como Código.
+# PR → valida YAML y bundle.  Merge a main → deploy DEV + gov_sync.  Luego PROD con aprobación (environment "prd").
+# Secretos por environment de GitHub: DATABRICKS_HOST, DATABRICKS_CLIENT_ID, DATABRICKS_CLIENT_SECRET (OAuth M2M del SP).
+name: gov-as-code
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    environment: dev
+    env:
+      DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
+      DATABRICKS_CLIENT_ID: ${{ secrets.DATABRICKS_CLIENT_ID }}
+      DATABRICKS_CLIENT_SECRET: ${{ secrets.DATABRICKS_CLIENT_SECRET }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.11"}
+      - run: pip install -r requirements-dev.txt
+      - name: Pruebas de las especificaciones
+        run: pytest -q
+      - name: Validación de gobierno (sin Spark)
+        run: python src/gov_sync.py --root . --gov-catalog gov_dev --data-catalog ventas_dev --env dev --dry-run
+      - uses: databricks/setup-cli@main   # fijar una versión concreta en tu organización
+      - run: databricks bundle validate -t dev
+
+  deploy-dev:
+    if: github.event_name == 'push'
+    needs: validate
+    runs-on: ubuntu-latest
+    environment: dev
+    env:
+      DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
+      DATABRICKS_CLIENT_ID: ${{ secrets.DATABRICKS_CLIENT_ID }}
+      DATABRICKS_CLIENT_SECRET: ${{ secrets.DATABRICKS_CLIENT_SECRET }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: databricks/setup-cli@main
+      - run: databricks bundle deploy -t dev --var="git_commit=${{ github.sha }}"
+      - run: databricks bundle run gov_sync -t dev --var="git_commit=${{ github.sha }}"
+
+  deploy-prd:
+    needs: deploy-dev
+    runs-on: ubuntu-latest
+    environment: prd        # configurar "required reviewers" en GitHub: aprobación de otra persona (SoD, GOV-ACC-005)
+    env:
+      DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
+      DATABRICKS_CLIENT_ID: ${{ secrets.DATABRICKS_CLIENT_ID }}
+      DATABRICKS_CLIENT_SECRET: ${{ secrets.DATABRICKS_CLIENT_SECRET }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: databricks/setup-cli@main
+      - run: databricks bundle deploy -t prd --var="git_commit=${{ github.sha }}" --var="deployer_sp=${{ secrets.DATABRICKS_CLIENT_ID }}"
+      - run: databricks bundle run gov_sync -t prd --var="git_commit=${{ github.sha }}" --var="deployer_sp=${{ secrets.DATABRICKS_CLIENT_ID }}"

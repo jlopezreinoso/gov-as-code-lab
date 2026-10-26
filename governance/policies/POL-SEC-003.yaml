@@ -1,0 +1,17 @@
+# Política corporativa → se registra en org.policies y se implementa con los SQL listados.
+kind: policy
+policy_id: POL-SEC-003
+version: "1.0"
+name: Enmascaramiento de datos restringidos
+category: Seguridad y clasificación
+owner: grp-data-owners
+approved_by: Data Council (acta DC-2026-014)
+effective_from: 2026-11-01
+review_date: 2027-11-01
+status: VIGENTE
+document_uri: https://intranet/politicas/POL-SEC-003.pdf
+implementation:
+  # Se ejecutan en orden en cada gov_sync (deben ser idempotentes: CREATE OR REPLACE / IF NOT EXISTS).
+  sql_files:
+    - governance/masks/mask_restricted.sql
+    - governance/abac/pol_sec_003.sql

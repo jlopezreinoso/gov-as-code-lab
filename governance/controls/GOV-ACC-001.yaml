@@ -1,0 +1,27 @@
+kind: control
+control_id: GOV-ACC-001
+project_id: PRJ-VENTAS
+risk_id: RISK-ACC-001
+policy_id: POL-SEC-001
+domain: Accesos
+question: ¿Los privilegios se otorgan solo a grupos?
+description: Revisión automática de grants a usuarios individuales
+control_type: Detectivo
+native_or_custom: NATIVO
+databricks_capability: UC Grants + information_schema
+evidence: system.information_schema.table_privileges
+owner: grp-security
+frequency: Diaria
+failure_action: Revocar y reasignar a grupo
+status: ACTIVO
+tests:
+  - test_id: TST-ACC-001-01
+    description: Grants directos a usuarios en el catálogo de datos
+    expected: 0 filas
+    automated: true
+    query_or_script_uri: governance/tests/acc_001_grants_to_users.sql
+  - test_id: TST-ACC-002-01
+    description: ALL PRIVILEGES en el catálogo de datos
+    expected: 0 filas
+    automated: true
+    query_or_script_uri: governance/tests/acc_002_all_privileges.sql
