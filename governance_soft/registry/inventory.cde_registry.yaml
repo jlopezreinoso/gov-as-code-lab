@@ -1,0 +1,10 @@
+# Datos críticos (expediente 07). CDE-05 (fecha_pago) llega con el pipeline (contrato DP-01 1.0.0).
+kind: registry
+table: inventory.cde_registry
+keys: [cde_id]
+rows:
+  - {cde_id: CDE-01, project_id: PRJ-PAG-001, product_id: DP-01, uc_object: "${data_catalog}.gold.pagos", column_name: pago_id,    business_term_id: TERM-PAGO-ID,    decision_id: D-01, criticality: ALTA, owner: randrade@labpagos.example, steward: dvega@labpagos.example, dq_required: true, certification_required: true}
+  - {cde_id: CDE-02, project_id: PRJ-PAG-001, product_id: DP-01, uc_object: "${data_catalog}.gold.pagos", column_name: monto,      business_term_id: TERM-MONTO,      decision_id: D-01, criticality: ALTA, owner: randrade@labpagos.example, steward: dvega@labpagos.example, dq_required: true, certification_required: true}
+  - {cde_id: CDE-03, project_id: PRJ-PAG-001, product_id: DP-01, uc_object: "${data_catalog}.gold.pagos", column_name: pais,       business_term_id: TERM-PAIS,       decision_id: D-01, criticality: ALTA, owner: randrade@labpagos.example, steward: dvega@labpagos.example, dq_required: true, certification_required: true}
+  - {cde_id: CDE-04, project_id: PRJ-PAG-001, product_id: DP-01, uc_object: "${data_catalog}.gold.pagos", column_name: email,      business_term_id: TERM-EMAIL,      decision_id: D-03, criticality: ALTA, owner: randrade@labpagos.example, steward: dvega@labpagos.example, dq_required: true, certification_required: true}
+  - {cde_id: CDE-05, project_id: PRJ-PAG-001, product_id: DP-01, uc_object: "${data_catalog}.gold.pagos", column_name: fecha_pago, business_term_id: TERM-FECHA-PAGO, decision_id: D-01, criticality: ALTA, owner: randrade@labpagos.example, steward: dvega@labpagos.example, dq_required: true, certification_required: true}

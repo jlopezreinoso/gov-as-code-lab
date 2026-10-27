@@ -1,0 +1,8 @@
+kind: tag
+key: gov_lab_domain
+version: "1.0"
+description: Dominio de datos P06
+allowed_values: [pagos, clientes, riesgo]
+owner: fruiz@labpagos.example
+status: VIGENTE
+implementation: {method: tag-policies API, created: "G3-A5 26-oct-2026"}

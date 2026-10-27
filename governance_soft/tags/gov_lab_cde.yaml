@@ -1,0 +1,8 @@
+kind: tag
+key: gov_lab_cde
+version: "1.0"
+description: Dato crítico CDE-xx de la matriz 07
+allowed_values: [CDE-01, CDE-02, CDE-03, CDE-04, CDE-05]
+owner: dvega@labpagos.example
+status: VIGENTE
+implementation: {method: tag-policies API, created: "G3-A5 26-oct-2026"}

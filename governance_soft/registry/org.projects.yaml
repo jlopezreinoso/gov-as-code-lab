@@ -1,17 +1,16 @@
-# Registro genérico: cualquier tabla de REGISTRY_TABLES (ver src/gov_specs.py y hoja 05_COMO_SE_CARGA).
-# Archivo = <esquema>.<tabla>.yaml · keys = clave primaria · rows = filas (MERGE idempotente).
+# Proyecto (expediente 01 PROJECT_CHARTER). Archivo = <esquema>.<tabla>.yaml · keys = PK · rows = MERGE idempotente.
 kind: registry
 table: org.projects
 keys: [project_id]
 rows:
-  - project_id: PRJ-VENTAS
-    name: Analítica de ventas
-    domain_id: DOM-COMERCIAL
-    criticality_level: 3
+  - project_id: PRJ-PAG-001
+    name: Pagos regionales gobernados — Ola 1 (lab)
+    domain_id: DOM-PAGOS
+    criticality_level: 1
     cloud: Azure
     status: EN_CURSO
-    business_owner: maria.perez@empresa.com
-    data_owner: grp-data-owners-ventas
-    sponsor: Gerencia Comercial
-    start_date: 2026-11-03
-    charter_uri: https://intranet/proyectos/PRJ-VENTAS/charter.pdf
+    business_owner: randrade@labpagos.example
+    data_owner: randrade@labpagos.example
+    sponsor: asalazar@labpagos.example
+    start_date: 2026-10-26
+    charter_uri: EXPEDIENTE_PREVIO_GOV_MANUAL_LAB/02_G0_INTAKE.md#01

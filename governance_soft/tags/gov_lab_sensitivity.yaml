@@ -1,0 +1,9 @@
+# Clasificación P11. Prefijo gov_lab_ para no colisionar con 'sensitivity' del MVP de fraude (H-02).
+kind: tag
+key: gov_lab_sensitivity
+version: "1.0"
+description: Nivel de clasificación P11
+allowed_values: [publico, interno, confidencial, restringido]
+owner: mtorres@labpagos.example
+status: VIGENTE
+implementation: {method: tag-policies API, created: "G3-A5 26-oct-2026"}

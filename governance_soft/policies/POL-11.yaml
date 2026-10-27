@@ -1,0 +1,11 @@
+kind: policy
+policy_id: POL-11
+version: "1.0"
+name: Excepciones (aprobador, control compensatorio y expiración máxima de 90 días)
+category: Riesgo
+owner: vcastro@labpagos.example
+approved_by: Data Council (acta LAB-001)
+effective_from: 2026-10-26
+review_date: 2027-10-26
+status: VIGENTE
+document_uri: EXPEDIENTE_PREVIO_GOV_MANUAL_LAB/04_G2_DISENO.md#N09

@@ -1,0 +1,37 @@
+# Inventario de fuentes (expediente 05).
+kind: registry
+table: inventory.data_sources
+keys: [source_id]
+rows:
+  - source_id: SRC-01
+    project_id: PRJ-PAG-001
+    name: PayHub payments.transaction
+    source_type: RDBMS
+    source_system: PayHub (PostgreSQL 15)
+    domain_id: DOM-PAGOS
+    owner: randrade@labpagos.example
+    steward: dvega@labpagos.example
+    authoritative: true
+    connection_type: CSV diario a Volume gov_manual_lab.bronze.landing (ADR-008)
+    cdc_available: false
+    contains_pii: true
+    classification: restringido
+    frequency: Diaria 02:00 ECT
+    sla: D-1 disponible 03:00 ECT
+    status: ACTIVA
+  - source_id: SRC-02
+    project_id: PRJ-PAG-001
+    name: Catálogo ISO de países
+    source_type: ARCHIVO
+    source_system: Git (paises.csv)
+    domain_id: DOM-PAGOS
+    owner: fruiz@labpagos.example
+    steward: dvega@labpagos.example
+    authoritative: true
+    connection_type: Carga versionada
+    cdc_available: false
+    contains_pii: false
+    classification: publico
+    frequency: Por cambio
+    sla: N/A
+    status: ACTIVA

@@ -1,3 +1,4 @@
+# LAB gov_manual_lab: NO APLICA (sin ITSM; job gov_itsm_sync pausado). Las decisiones humanas viven en el expediente.
 # Mapeo ITSM → tablas de gobierno (job gov_itsm_sync). Ejemplo con la Table API de ServiceNow.
 # El token vive en un secreto (nunca en Git). Ajustar rutas, filtros y campos a tu instancia.
 base_url: https://<instancia>.service-now.com/api/now/table

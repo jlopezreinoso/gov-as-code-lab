@@ -1,0 +1,8 @@
+kind: tag
+key: gov_lab_owner
+version: "1.0"
+description: Data Owner del activo (correo)
+allowed_values: [randrade@labpagos.example]
+owner: cmendez@labpagos.example
+status: VIGENTE
+implementation: {method: tag-policies API, created: "G3-A5 26-oct-2026"}

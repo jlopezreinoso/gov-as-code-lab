@@ -1,0 +1,16 @@
+# Esperado con los datos sintéticos: 4 filas descartadas (montos 0 o negativos).
+kind: dq_rule
+rule_id: DQ-03
+project_id: PRJ-PAG-001
+cde_id: CDE-02
+uc_object: ${data_catalog}.silver.pagos
+column_name: monto
+dimension: Validez
+engine: EXPECTATION
+expression: "monto > 0"
+severity: CRITICA
+threshold: 1.0
+failure_action: Descartar la fila (expect_or_drop) y registrarla en cuarentena
+owner: dvega@labpagos.example
+enabled: true
+effective_from: 2026-10-26

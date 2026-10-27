@@ -1,0 +1,59 @@
+# Glosario (expediente 08). La definición se usa tal cual como comentario de columna en UC (máx. 250 caracteres).
+kind: registry
+table: inventory.business_glossary
+keys: [term_id]
+rows:
+  - term_id: TERM-PAGOS
+    domain_id: DOM-PAGOS
+    term: Pagos regionales
+    definition: "Pagos procesados por PayHub en Ecuador y Perú, uno por fila, depurados y validados. Producto DP-01. Owner: Pagos Regionales."
+    synonyms: transacciones
+    owner: randrade@labpagos.example
+    steward: dvega@labpagos.example
+    status: APROBADO
+    effective_from: 2026-10-26
+  - term_id: TERM-PAGO-ID
+    domain_id: DOM-PAGOS
+    term: Identificador de pago
+    definition: Identificador único del pago asignado por PayHub. Llave del producto; no se reutiliza.
+    synonyms: id de transacción
+    owner: randrade@labpagos.example
+    steward: dvega@labpagos.example
+    status: APROBADO
+    effective_from: 2026-10-26
+  - term_id: TERM-PAIS
+    domain_id: DOM-PAGOS
+    term: País de operación
+    definition: País donde se procesó el pago, código ISO 3166-1 alfa-2. Determina la visibilidad de la fila.
+    synonyms: mercado
+    owner: randrade@labpagos.example
+    steward: dvega@labpagos.example
+    status: APROBADO
+    effective_from: 2026-10-26
+  - term_id: TERM-EMAIL
+    domain_id: DOM-PAGOS
+    term: Email del pagador
+    definition: "Correo electrónico del pagador. Dato personal restringido: enmascarado salvo para el grupo autorizado."
+    synonyms: correo
+    owner: randrade@labpagos.example
+    steward: dvega@labpagos.example
+    status: APROBADO
+    effective_from: 2026-10-26
+  - term_id: TERM-MONTO
+    domain_id: DOM-PAGOS
+    term: Monto del pago
+    definition: Valor del pago en la moneda local, 2 decimales, sin comisiones ni impuestos.
+    synonyms: importe, valor
+    unit: moneda local (USD en EC, PEN en PE)
+    owner: randrade@labpagos.example
+    steward: dvega@labpagos.example
+    status: APROBADO
+    effective_from: 2026-10-26
+  - term_id: TERM-FECHA-PAGO
+    domain_id: DOM-PAGOS
+    term: Fecha del pago
+    definition: Fecha y hora (UTC) en que PayHub autorizó el pago.
+    owner: randrade@labpagos.example
+    steward: dvega@labpagos.example
+    status: APROBADO
+    effective_from: 2026-10-26

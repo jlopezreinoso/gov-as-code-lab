@@ -1,0 +1,14 @@
+# Native vs custom (expediente 18).
+kind: registry
+table: risk_control.native_vs_custom
+keys: [requirement_id]
+rows:
+  - {requirement_id: NVC-01, project_id: PRJ-PAG-001, requirement: Filtro por país,   native_capability: ABAC row filter,                         available: true,  coverage: TOTAL,   gap: "",                     decision: NATIVO,                         adr_id: ADR-001}
+  - {requirement_id: NVC-02, project_id: PRJ-PAG-001, requirement: Máscara de email,  native_capability: ABAC column mask,                        available: true,  coverage: TOTAL,   gap: "",                     decision: NATIVO,                         adr_id: ADR-001}
+  - {requirement_id: NVC-03, project_id: PRJ-PAG-001, requirement: Detección de PII,  native_capability: Data Classification,                     available: true,  coverage: PARCIAL, gap: Public Preview,         decision: NATIVO,                         adr_id: ADR-007}
+  - {requirement_id: NVC-04, project_id: PRJ-PAG-001, requirement: Calidad de datos,  native_capability: Expectations + Data Quality Monitoring,  available: true,  coverage: TOTAL,   gap: DQM en Public Preview,  decision: NATIVO}
+  - {requirement_id: NVC-05, project_id: PRJ-PAG-001, requirement: Linaje,            native_capability: Linaje de UC,                            available: true,  coverage: TOTAL,   gap: "",                     decision: NATIVO}
+  - {requirement_id: NVC-06, project_id: PRJ-PAG-001, requirement: DSAR,              native_capability: Ninguna,                                 available: false, coverage: NINGUNA, gap: Sin función nativa,     decision: CUSTOM (gov_dsar)}
+  - {requirement_id: NVC-07, project_id: PRJ-PAG-001, requirement: Recertificación,   native_capability: Privilegios en information_schema,       available: true,  coverage: PARCIAL, gap: Sin flujo de aprobación, decision: CUSTOM LIGERO (gov_access_review)}
+  - {requirement_id: NVC-08, project_id: PRJ-PAG-001, requirement: Certificación,     native_capability: Tag system.certification_status,         available: true,  coverage: TOTAL,   gap: "",                     decision: NATIVO}
+  - {requirement_id: NVC-09, project_id: PRJ-PAG-001, requirement: Despliegue,        native_capability: Declarative Automation Bundles,          available: true,  coverage: TOTAL,   gap: "",                     decision: NATIVO,                         adr_id: ADR-005}

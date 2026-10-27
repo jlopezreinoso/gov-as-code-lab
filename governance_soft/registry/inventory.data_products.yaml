@@ -1,0 +1,17 @@
+# Productos de datos (expediente 09).
+kind: registry
+table: inventory.data_products
+keys: [product_id]
+rows:
+  - product_id: DP-01
+    project_id: PRJ-PAG-001
+    domain_id: DOM-PAGOS
+    name: Pagos regionales conciliados
+    purpose: Cierre diario y seguimiento comercial por país (D-01, D-02, D-03)
+    owner: randrade@labpagos.example
+    steward: dvega@labpagos.example
+    gold_object: ${data_catalog}.gold.pagos
+    grain: 1 fila por pago_id
+    refresh: Diaria
+    sla: D-1 a las 07:00 America/Guayaquil; 99 % mensual
+    lifecycle_status: EN_CONSTRUCCION

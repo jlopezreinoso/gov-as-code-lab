@@ -1,0 +1,8 @@
+kind: tag
+key: cost_center
+version: "1.0"
+description: Centro de costo para FinOps (N08)
+allowed_values: [CC-GOV-001, CC-PAG-001]
+owner: erios@labpagos.example
+status: VIGENTE
+implementation: {method: tag-policies API, created: "G3-A5 26-oct-2026"}

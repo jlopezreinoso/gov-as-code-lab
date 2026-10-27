@@ -1,0 +1,23 @@
+# Control (matriz 17) → risk_control.controls; cada test → risk_control.control_tests.
+# gov_reconcile ejecuta el SQL de los tests automáticos: devuelve VIOLACIONES (0 filas = PASS).
+kind: control
+control_id: C-01
+project_id: PRJ-PAG-001
+risk_id: R-05
+policy_id: POL-06
+domain: Metadatos y propiedad
+question: ¿Toda tabla y columna de silver/gold tiene comentario, owner y steward, y no hay grants a usuarios?
+description: Comentarios, tags gov_lab_owner y gov_lab_steward obligatorios y acceso solo por grupos (SEC-01)
+control_type: Preventivo/Detectivo
+native_or_custom: NATIVO
+databricks_capability: Comments + governed tags + UC grants + information_schema
+evidence: system.information_schema (tables, columns, table_tags, table_privileges)
+owner: lparedes@labpagos.example
+frequency: Diaria y en cada PR
+failure_action: Bloquear certificación y abrir issue S3
+status: ACTIVO
+tests:
+  - {test_id: T-01,  description: Grants directos a usuarios en el catálogo de datos, expected: 0 filas, automated: true, query_or_script_uri: governance_soft/tests/acc_001_grants_to_users.sql}
+  - {test_id: T-01b, description: ALL PRIVILEGES en el catálogo de datos,            expected: 0 filas, automated: true, query_or_script_uri: governance_soft/tests/acc_002_all_privileges.sql}
+  - {test_id: T-11,  description: Tablas o columnas de silver/gold sin comentario,   expected: 0 filas, automated: true, query_or_script_uri: governance_soft/tests/c01_sin_comentario.sql}
+  - {test_id: T-11b, description: Tablas gold sin owner o steward,                   expected: 0 filas, automated: true, query_or_script_uri: governance_soft/tests/c01_sin_owner_steward.sql}

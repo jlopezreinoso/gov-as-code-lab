@@ -1,0 +1,10 @@
+# Governed tag → org.standards (standard_type = tagging). El tag en sí existe en la cuenta (tag policy);
+# gov_reconcile verifica que coincida. Dispara p_filter_country (C-03).
+kind: tag
+key: gov_lab_country
+version: "1.0"
+description: Columna con código de país ISO (dispara el filtro de filas por país)
+allowed_values: [country_code]
+owner: lparedes@labpagos.example
+status: VIGENTE
+implementation: {method: tag-policies API, created: "manual (EXC-02)"}

@@ -39,6 +39,8 @@ REQUIRED = {
     "dq_rule": ["rule_id", "uc_object", "dimension", "engine", "expression", "severity", "failure_action", "owner"],
     "registry": ["table", "keys", "rows"],
 }
+ID_FIELD = {"policy": "policy_id", "tag": "key", "control": "control_id", "contract": "contract_id",
+            "dq_rule": "rule_id", "registry": "table"}
 ENGINES = {"EXPECTATION", "DQ_MONITOR", "DQX", "CUSTOM"}
 CONTROL_TYPES = {"Preventivo", "Detectivo", "Correctivo", "Compensatorio", "Preventivo/Detectivo"}
 SEMVER = re.compile(r"^\d+\.\d+(\.\d+)?$")
@@ -90,8 +92,8 @@ def validate(specs: list[dict]) -> None:
             errors.append(f"{where}: kind '{kind}' no soportado")
             continue
         errors += [f"{where}: falta '{k}'" for k in REQUIRED[kind] if s.get(k) in (None, "", [])]
-        ident = (kind, s.get("policy_id") or s.get("key") or s.get("control_id") or s.get("contract_id")
-                 or s.get("rule_id") or s.get("table"), str(s.get("version", "")))
+        # La clave es la de cada kind: un control también trae policy_id y no debe usarse como identidad.
+        ident = (kind, s.get(ID_FIELD[kind]), str(s.get("version", "")))
         if ident in seen:
             errors.append(f"{where}: duplicado de {seen[ident]}")
         seen[ident] = where

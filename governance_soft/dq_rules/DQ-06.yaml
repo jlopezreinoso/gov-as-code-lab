@@ -1,0 +1,17 @@
+# CUSTOM en gold: gov_reconcile la mide. OJO (H-12): el job debe correr como sp_etl_pagos; con otro usuario
+# el filtro por país devuelve 0 filas y la regla daría PASS falso. Esperado: 6 de 1 390 inválidos (99,57 %).
+kind: dq_rule
+rule_id: DQ-06
+project_id: PRJ-PAG-001
+cde_id: CDE-04
+uc_object: ${data_catalog}.gold.pagos
+column_name: email
+dimension: Validez
+engine: CUSTOM
+expression: "email IS NULL OR email RLIKE '^[^@ ]+@[^@ ]+[.][^@ ]+$'"
+severity: ADVERTENCIA
+threshold: 0.99
+failure_action: Abrir issue DQ S3 para el Steward
+owner: dvega@labpagos.example
+enabled: true
+effective_from: 2026-10-26

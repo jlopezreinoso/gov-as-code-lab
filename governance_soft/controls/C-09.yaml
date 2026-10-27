@@ -1,0 +1,18 @@
+kind: control
+control_id: C-09
+project_id: PRJ-PAG-001
+risk_id: R-06
+policy_id: POL-05
+domain: Privacidad
+question: ¿Toda tabla tiene política de retención y se purga?
+description: Tags retention_policy y retention_column en bronze/silver/gold; job gov_retention mensual
+control_type: Correctivo
+native_or_custom: NATIVO
+databricks_capability: Tags + job gov_retention + VACUUM
+evidence: privacy.purge_log
+owner: vcastro@labpagos.example
+frequency: Mensual
+failure_action: Issue S3 y etiquetar la tabla
+status: ACTIVO
+tests:
+  - {test_id: T-13, description: Tablas sin tags de retención, expected: 0 filas, automated: true, query_or_script_uri: governance_soft/tests/c09_sin_retencion.sql}

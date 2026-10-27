@@ -1,0 +1,18 @@
+# Política corporativa (P04) → org.policies. Se implementa con los SQL listados (gov_sync los ejecuta en orden, idempotentes).
+# Regulariza EXC-02: las funciones y políticas ABAC creadas a mano pasan a vivir en Git.
+kind: policy
+policy_id: POL-02
+version: "1.0"
+name: Clasificación y seguridad (acceso por grupo, filtro por país, máscara de PII)
+category: Seguridad y clasificación
+owner: mtorres@labpagos.example
+approved_by: Data Council (acta LAB-001)
+effective_from: 2026-10-26
+review_date: 2027-10-26
+status: VIGENTE
+document_uri: EXPEDIENTE_PREVIO_GOV_MANUAL_LAB/01_PRE-G0_OFICINA_DAMA.md#P04
+implementation:
+  sql_files:
+    - governance_soft/masks/fn_pagos_security.sql
+    - governance_soft/abac/p_filter_country.sql
+    - governance_soft/abac/p_mask_email.sql

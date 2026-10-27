@@ -1,0 +1,11 @@
+kind: policy
+policy_id: POL-06
+version: "1.0"
+name: Metadatos (comentario, tags obligatorios y linaje en silver y gold)
+category: Metadatos
+owner: lparedes@labpagos.example
+approved_by: Data Council (acta LAB-001)
+effective_from: 2026-10-26
+review_date: 2027-10-26
+status: VIGENTE
+document_uri: EXPEDIENTE_PREVIO_GOV_MANUAL_LAB/01_PRE-G0_OFICINA_DAMA.md#P05

@@ -1,0 +1,19 @@
+kind: control
+control_id: C-03
+project_id: PRJ-PAG-001
+risk_id: R-01
+policy_id: POL-02
+domain: Accesos
+question: ¿Cada usuario ve solo las filas de su país?
+description: Política ABAC p_filter_country sobre columnas con tag gov_lab_country (SEC-03)
+control_type: Preventivo
+native_or_custom: NATIVO
+databricks_capability: ABAC row filter
+custom_object: ${data_catalog}.security.filter_country
+evidence: Política en el catálogo + pruebas por grupo de G5 (T-03a…e)
+owner: mtorres@labpagos.example
+frequency: Diaria y en cada despliegue
+failure_action: Bloquear acceso y abrir incidente S1
+status: ACTIVO
+tests:
+  - {test_id: T-03, description: Columnas pais sin tag gov_lab_country, expected: 0 filas, automated: true, query_or_script_uri: governance_soft/tests/c03_pais_sin_tag.sql}

@@ -1,0 +1,9 @@
+# Tag NATIVO de Databricks (H-01): reemplaza a gov_lab_certified. Sin valor = borrador. Se asigna en G6.
+kind: tag
+key: system.certification_status
+version: "1.0"
+description: Estado de certificación del activo (nativo)
+allowed_values: [certified, deprecated]
+owner: randrade@labpagos.example
+status: VIGENTE
+implementation: {method: nativo, created: "Databricks"}

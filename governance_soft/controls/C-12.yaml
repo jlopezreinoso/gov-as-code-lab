@@ -1,0 +1,19 @@
+kind: control
+control_id: C-12
+project_id: PRJ-PAG-001
+risk_id: R-03
+policy_id: POL-08
+domain: Accesos
+question: ¿Se recertifican los accesos cada trimestre?
+description: Job gov_access_review abre el ciclo trimestral; el Data Owner decide (PII cada 6 meses)
+control_type: Detectivo
+native_or_custom: CUSTOM
+databricks_capability: information_schema privileges + job gov_access_review
+custom_object: src/gov_access_review.py
+evidence: access.access_reviews (N14)
+owner: mtorres@labpagos.example
+frequency: Trimestral
+failure_action: Revocar los accesos no recertificados
+status: ACTIVO
+tests:
+  - {test_id: T-15, description: Recertificación trimestral completa, expected: 100 % revisado, automated: false, query_or_script_uri: governance_soft/tests/manuales.md}

@@ -1,0 +1,9 @@
+# Etiqueta legible de la política 20. El job gov_retention usa además los tags retention_policy (= policy_id) y retention_column.
+kind: tag
+key: gov_lab_retention
+version: "1.0"
+description: Política de retención 20
+allowed_values: [30d, 90d, 24m, 7y]
+owner: vcastro@labpagos.example
+status: VIGENTE
+implementation: {method: tag-policies API, created: "G3-A5 26-oct-2026"}

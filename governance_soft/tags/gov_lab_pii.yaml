@@ -1,0 +1,9 @@
+# Dispara p_mask_email (C-04). Valores futuros (nombre, documento, telefono) se agregan cuando exista la columna (YAGNI).
+kind: tag
+key: gov_lab_pii
+version: "1.0"
+description: Tipo de dato personal de la columna (dispara la máscara de PII)
+allowed_values: [email]
+owner: vcastro@labpagos.example
+status: VIGENTE
+implementation: {method: tag-policies API, created: "manual (EXC-02)"}

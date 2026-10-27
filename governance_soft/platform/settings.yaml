@@ -10,4 +10,7 @@ workspace:
     justification: Evitar exportación de notebooks con datos
   - key: enableTokensConfig
     expected: true
-    justification: Gestión de tokens habilitada para aplicar expiración
+    justification: "EXC-04 / ADR-009 fase 1: PAT habilitado hasta el 31-ene-2027 (fase 2 = false)"
+  - key: maxTokenLifetimeDays
+    expected: 90
+    justification: "ADR-009 fase 1 (hoy 730: se reportará como no conforme hasta que Security lo cambie)"

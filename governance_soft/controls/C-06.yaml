@@ -1,0 +1,18 @@
+kind: control
+control_id: C-06
+project_id: PRJ-PAG-001
+risk_id: R-03
+policy_id: POL-08
+domain: Accesos
+question: ¿La excepción ETL la tiene solo un service principal?
+description: g_gov_lab_etl contiene únicamente sp_etl_pagos (ADR-003, SEC-05)
+control_type: Preventivo
+native_or_custom: NATIVO
+databricks_capability: Service principals + excepción ABAC
+evidence: Miembros de g_gov_lab_etl
+owner: mtorres@labpagos.example
+frequency: Trimestral
+failure_action: Retirar a la persona e iniciar revisión de su actividad en system.access.audit
+status: ACTIVO
+tests:
+  - {test_id: T-06, description: g_gov_lab_etl = solo sp_etl_pagos, expected: 1 miembro (SP), automated: false, query_or_script_uri: governance_soft/tests/manuales.md}

@@ -1,9 +1,11 @@
-# Características marcadas en el CHECKLIST_CONFIGURADOR para el proyecto.
+# Características activas del configurador (01, campo 13). El baseline (criticidad 1) no se lista: siempre aplica.
 kind: registry
 table: org.project_features
 keys: [project_id, feature_code]
 rows:
-  - {project_id: PRJ-VENTAS, feature_code: PII,   enabled: true, justification: Datos de clientes}
-  - {project_id: PRJ-VENTAS, feature_code: SEM,   enabled: true, justification: KPIs compartidos de ventas}
-  - {project_id: PRJ-VENTAS, feature_code: BI,    enabled: true, justification: Power BI corporativo}
-  - {project_id: PRJ-VENTAS, feature_code: CDC,   enabled: true, justification: Pedidos desde el ERP}
+  - {project_id: PRJ-PAG-001, feature_code: PII,   enabled: true,  justification: "email del pagador (CDE-04); DPIA aprobada con condición (acta LAB-001 DC-05)"}
+  - {project_id: PRJ-PAG-001, feature_code: ABAC,  enabled: true,  justification: "filtro por país y máscara de PII por tags (ADR-001)"}
+  - {project_id: PRJ-PAG-001, feature_code: TAGS,  enabled: true,  justification: "taxonomía de tags gobernados (11)"}
+  - {project_id: PRJ-PAG-001, feature_code: AI,    enabled: false, justification: "ola 3"}
+  - {project_id: PRJ-PAG-001, feature_code: SEM,   enabled: false, justification: "Metric Views y Genie en ola 2"}
+  - {project_id: PRJ-PAG-001, feature_code: SHARE, enabled: false, justification: "sin compartición externa (POL-09)"}

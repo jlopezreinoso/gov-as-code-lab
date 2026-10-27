@@ -1,0 +1,35 @@
+# Decisiones de negocio (expediente 02).
+kind: registry
+table: org.business_decisions
+keys: [decision_id]
+rows:
+  - decision_id: D-01
+    project_id: PRJ-PAG-001
+    name: Cierre diario de pagos por país
+    business_question: ¿Cuadra el total de pagos del día?
+    owner: randrade@labpagos.example
+    consumer: Jefes de operaciones EC/PE
+    impact_if_wrong: "Alto: descuadre contable y reproceso"
+    automation_level: HUMANA_CON_DATOS
+    human_approval_required: true
+    criticality: ALTA
+  - decision_id: D-02
+    project_id: PRJ-PAG-001
+    name: Seguimiento comercial por caída de volumen
+    business_question: ¿Qué comercios bajan su volumen?
+    owner: randrade@labpagos.example
+    consumer: Analistas comerciales EC/PE
+    impact_if_wrong: "Medio: esfuerzo comercial mal dirigido"
+    automation_level: HUMANA
+    human_approval_required: false
+    criticality: MEDIA
+  - decision_id: D-03
+    project_id: PRJ-PAG-001
+    name: Contacto al pagador por incidencia
+    business_question: ¿A quién contacto por este pago?
+    owner: randrade@labpagos.example
+    consumer: Soporte (grupo de país + g_gov_lab_pii)
+    impact_if_wrong: "Alto: contacto erróneo y riesgo de privacidad"
+    automation_level: HUMANA
+    human_approval_required: true
+    criticality: ALTA

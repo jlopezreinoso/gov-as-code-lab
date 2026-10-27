@@ -1,0 +1,16 @@
+# CUSTOM en gold (ver H-12 en DQ-06). Esperado: 10 nulos de 1 390 (99,28 % ≥ 98 %: PASS).
+kind: dq_rule
+rule_id: DQ-07
+project_id: PRJ-PAG-001
+cde_id: CDE-04
+uc_object: ${data_catalog}.gold.pagos
+column_name: email
+dimension: Completitud
+engine: CUSTOM
+expression: "email IS NOT NULL"
+severity: ADVERTENCIA
+threshold: 0.98
+failure_action: Alertar al Steward (issue S3)
+owner: dvega@labpagos.example
+enabled: true
+effective_from: 2026-10-26

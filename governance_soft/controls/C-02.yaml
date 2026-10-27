@@ -1,0 +1,18 @@
+kind: control
+control_id: C-02
+project_id: PRJ-PAG-001
+risk_id: R-08
+policy_id: POL-02
+domain: Plataforma
+question: ¿El catálogo de datos está aislado y ligado solo a dev?
+description: Catálogo gov_manual_lab en modo ISOLATED con binding al workspace dev (SEC-02)
+control_type: Preventivo
+native_or_custom: NATIVO
+databricks_capability: Workspace-catalog bindings
+evidence: catalogs get (isolation_mode) + workspace-bindings get-bindings
+owner: erios@labpagos.example
+frequency: Trimestral
+failure_action: Restaurar el aislamiento y abrir incidente S2
+status: ACTIVO
+tests:
+  - {test_id: T-02, description: Catálogo ISOLATED con binding solo a dev, expected: ISOLATED + 1 binding, automated: false, query_or_script_uri: governance_soft/tests/manuales.md}

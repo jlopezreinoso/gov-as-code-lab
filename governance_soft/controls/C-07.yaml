@@ -1,0 +1,18 @@
+kind: control
+control_id: C-07
+project_id: PRJ-PAG-001
+risk_id: R-04
+policy_id: POL-04
+domain: Calidad
+question: ¿Los CDE cumplen las reglas DQ-01 a DQ-08?
+description: Expectations del pipeline (DQ-01, 02, 03, 04, 05), reglas CUSTOM en gold (DQ-06, 07) y monitor de frescura (DQ-08)
+control_type: Preventivo/Detectivo
+native_or_custom: NATIVO
+databricks_capability: Lakeflow expectations + Data Quality Monitoring
+evidence: quality.dq_results + métricas de expectations del pipeline
+owner: dvega@labpagos.example
+frequency: Diaria
+failure_action: Issue S2 (crítica) o S3 (advertencia); bloquear certificación si es crítica
+status: ACTIVO
+tests:
+  - {test_id: T-12, description: Reglas DQ del proyecto con FAIL en 24 h, expected: 0 filas, automated: true, query_or_script_uri: governance_soft/tests/c07_dq_fallidas.sql}

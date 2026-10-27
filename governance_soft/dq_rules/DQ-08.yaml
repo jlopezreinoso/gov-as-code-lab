@@ -1,0 +1,16 @@
+# Frescura del producto: monitor de Data Quality Monitoring (Public Preview) + alerta S2 (P16).
+kind: dq_rule
+rule_id: DQ-08
+project_id: PRJ-PAG-001
+cde_id: CDE-05
+uc_object: ${data_catalog}.gold.pagos
+column_name: fecha_pago
+dimension: Oportunidad
+engine: DQ_MONITOR
+expression: "max(fecha_pago) >= current_date() - INTERVAL 1 DAY a las 07:00 America/Guayaquil"
+severity: CRITICA
+threshold: 1.0
+failure_action: Alerta S2 al Steward y al Data Engineer
+owner: dvega@labpagos.example
+enabled: true
+effective_from: 2026-10-26

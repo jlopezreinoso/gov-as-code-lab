@@ -1,0 +1,19 @@
+kind: control
+control_id: C-10
+project_id: PRJ-PAG-001
+risk_id: R-07
+policy_id: POL-03
+domain: Privacidad
+question: ¿Podemos borrar los datos de un titular en todas las capas?
+description: Tablas con PII declaran dsar_subject_key; gov_dsar borra por hash SHA-256 del identificador (REG-04)
+control_type: Correctivo
+native_or_custom: CUSTOM
+databricks_capability: Job gov_dsar + Delta DELETE/VACUUM
+custom_object: src/gov_dsar.py
+evidence: privacy.dsar_execution_log
+owner: vcastro@labpagos.example
+frequency: Por solicitud
+failure_action: Escalar al DPO (plazo legal)
+status: ACTIVO
+tests:
+  - {test_id: T-14, description: Tablas con PII sin dsar_subject_key, expected: 0 filas, automated: true, query_or_script_uri: governance_soft/tests/c10_pii_sin_dsar.sql}

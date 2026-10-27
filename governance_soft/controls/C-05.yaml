@@ -1,0 +1,18 @@
+kind: control
+control_id: C-05
+project_id: PRJ-PAG-001
+risk_id: R-02
+policy_id: POL-03
+domain: Clasificación
+question: ¿Lo que Data Classification detecta como PII está etiquetado como PII?
+description: Contraste entre los tags class.* de Data Classification y gov_lab_pii (ADR-007)
+control_type: Detectivo
+native_or_custom: NATIVO
+databricks_capability: Data Classification (Public Preview)
+evidence: system.information_schema.column_tags
+owner: dvega@labpagos.example
+frequency: Mensual
+failure_action: Issue S2; tratar la columna como restringida hasta revisión
+status: ACTIVO
+tests:
+  - {test_id: T-05, description: Columnas detectadas como PII sin gov_lab_pii, expected: 0 filas, automated: true, query_or_script_uri: governance_soft/tests/c05_clasificacion_sin_tag_pii.sql}

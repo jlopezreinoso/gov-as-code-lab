@@ -1,0 +1,7 @@
+# FinOps (N08): todo el cómputo del proyecto lleva el tag cost_center.
+kind: registry
+table: platform.cost_center_map
+keys: [cost_center]
+rows:
+  - {cost_center: CC-GOV-001, project_id: PRJ-PAG-001, domain_id: DOM-GOB,   owner: cmendez@labpagos.example}
+  - {cost_center: CC-PAG-001, project_id: PRJ-PAG-001, domain_id: DOM-PAGOS, owner: randrade@labpagos.example}

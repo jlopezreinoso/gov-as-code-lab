@@ -1,0 +1,7 @@
+# Previews en uso (26 ENVIRONMENT_READINESS). Se revisan cada trimestre (release watch).
+kind: registry
+table: platform.preview_decisions
+keys: [preview_name, workspace_id]
+rows:
+  - {preview_name: Data Classification,     workspace_id: "1754516251450588", enabled: true, adr_id: ADR-007, approved_by: Data Council (acta LAB-001), review_date: 2027-01-26}
+  - {preview_name: Data Quality Monitoring, workspace_id: "1754516251450588", enabled: true,                  approved_by: Data Council (acta LAB-001), review_date: 2027-01-26}

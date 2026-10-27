@@ -1,0 +1,8 @@
+# Segregación de funciones (P07). EXC-06: en el lab una persona cumple todos los roles (aceptado con datos sintéticos).
+kind: registry
+table: access.sod_rules
+keys: [rule_id]
+rows:
+  - {rule_id: SOD-01, role_a: ETL_RUNNER,     role_b: CONSUMER_EC, description: Ninguna persona en g_gov_lab_etl (solo sp_etl_pagos),        severity: ALTA}
+  - {rule_id: SOD-02, role_a: DATA_ENGINEER,  role_b: DATA_OWNER,  description: Quien construye no aprueba accesos ni certifica,             severity: ALTA}
+  - {rule_id: SOD-03, role_a: PLATFORM_ADMIN, role_b: AUDITOR,     description: El admin no audita su propio trabajo (EXC-06 en el lab),     severity: MEDIA}

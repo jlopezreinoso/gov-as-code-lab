@@ -6,7 +6,7 @@ from gov_specs import SpecError, build_rows, diff_schema, load_specs, sql_files,
 from run_sql_file import statements
 
 ROOT = Path(__file__).resolve().parents[1]
-VARS = {"gov_catalog": "gov_dev", "data_catalog": "ventas_dev", "env": "dev"}
+VARS = {"gov_catalog": "gov_dev", "data_catalog": "gov_manual_lab", "env": "dev"}
 
 
 def test_plantillas_del_repo_son_validas():
@@ -16,15 +16,22 @@ def test_plantillas_del_repo_son_validas():
     assert {"org.policies", "org.standards", "risk_control.controls", "risk_control.control_tests",
             "inventory.data_contracts", "inventory.contract_columns", "quality.dq_rules", "org.projects"} <= rows.keys()
     contrato = rows["inventory.data_contracts"][1][0]
-    assert contrato["uc_object"] == "ventas_dev.gold.pedidos" and contrato["git_commit"] == "abc123"
+    assert contrato["uc_object"] == "gov_manual_lab.gold.pagos" and contrato["git_commit"] == "abc123"
     tipos = {c["column_name"]: c["data_type"] for c in rows["inventory.contract_columns"][1]}
-    assert tipos["monto_total"] == "DECIMAL(18,2)"
+    assert tipos["monto"] == "DECIMAL(12,2)"
+    # Trazabilidad del expediente: 12 controles (17), 8 reglas DQ (15), 11 riesgos (16), 9 ADR (N10).
+    assert {r["control_id"] for r in rows["risk_control.controls"][1]} == {f"C-{i:02d}" for i in range(1, 13)}
+    assert {r["rule_id"] for r in rows["quality.dq_rules"][1]} == {f"DQ-{i:02d}" for i in range(1, 9)}
+    assert len(rows["risk_control.risk_register"][1]) == 11 and len(rows["risk_control.adr_log"][1]) == 9
+    riesgos = {r["risk_id"] for r in rows["risk_control.risk_register"][1]}
+    assert {r["risk_id"] for r in rows["risk_control.controls"][1]} <= riesgos
 
 
 def test_sql_de_implementacion_existe_y_se_divide():
     specs = load_specs(ROOT, VARS)
     files = sql_files(specs)
-    assert files == ["governance_soft/masks/mask_restricted.sql", "governance_soft/abac/pol_sec_003.sql"]
+    assert files == ["governance_soft/masks/fn_pagos_security.sql", "governance_soft/abac/p_filter_country.sql",
+                     "governance_soft/abac/p_mask_email.sql"]
     for f in files:
         sql = subst((ROOT / f).read_text(encoding="utf-8"), VARS)
         assert "${" not in sql
@@ -58,6 +65,15 @@ def test_validate_reporta_todos_los_errores():
     msg = str(e.value)
     for esperado in ("no se carga por registro", "sin clave", "engine 'SQL'", "no es semver", "duplicadas", "kind 'nada'"):
         assert esperado in msg
+
+
+def test_controles_que_comparten_politica_no_son_duplicados():
+    base = {"kind": "control", "risk_id": "R", "policy_id": "POL-02", "domain": "d", "description": "x",
+            "control_type": "Preventivo", "native_or_custom": "NATIVO", "evidence": "e", "owner": "o",
+            "failure_action": "f", "status": "ACTIVO"}
+    validate([dict(base, control_id="C-02", _path="a"), dict(base, control_id="C-03", _path="b")])
+    with pytest.raises(SpecError, match="duplicado"):
+        validate([dict(base, control_id="C-02", _path="a"), dict(base, control_id="C-02", _path="b")])
 
 
 def test_diff_schema_detecta_add_drop_type_y_nulabilidad():

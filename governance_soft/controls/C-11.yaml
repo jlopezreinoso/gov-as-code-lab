@@ -1,0 +1,18 @@
+kind: control
+control_id: C-11
+project_id: PRJ-PAG-001
+risk_id: R-05
+policy_id: POL-07
+domain: Cambios
+question: ¿Todo objeto de gobierno del catálogo existe en Git y se despliega por bundle?
+description: Funciones, políticas ABAC, contratos y reglas viven en governance_soft/ y se aplican con gov_sync (cierra EXC-02)
+control_type: Preventivo
+native_or_custom: NATIVO
+databricks_capability: Declarative Automation Bundles + Git
+evidence: Historial de commits y despliegues
+owner: lparedes@labpagos.example
+frequency: Cada cambio
+failure_action: Revertir el cambio manual y aplicarlo por PR
+status: ACTIVO
+tests:
+  - {test_id: T-10, description: Objetos del catálogo = objetos en Git, expected: Sin diferencias, automated: false, query_or_script_uri: governance_soft/tests/manuales.md}

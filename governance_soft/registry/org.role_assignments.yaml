@@ -1,0 +1,11 @@
+# Mapeo rol → grupo de cuenta (N02). Las personas se asignan en el IdP / consola de cuenta, nunca aquí.
+kind: registry
+table: org.role_assignments
+keys: [assignment_id]
+rows:
+  - {assignment_id: RA-01, project_id: PRJ-PAG-001, domain_id: DOM-PAGOS, role_code: PLATFORM_ADMIN, principal: g_gov_lab_admin,    principal_type: GROUP, start_date: 2026-10-26}
+  - {assignment_id: RA-02, project_id: PRJ-PAG-001, domain_id: DOM-PAGOS, role_code: CONSUMER_EC,    principal: g_gov_lab_ec,       principal_type: GROUP, start_date: 2026-10-26}
+  - {assignment_id: RA-03, project_id: PRJ-PAG-001, domain_id: DOM-PAGOS, role_code: CONSUMER_PE,    principal: g_gov_lab_pe,       principal_type: GROUP, start_date: 2026-10-26}
+  - {assignment_id: RA-04, project_id: PRJ-PAG-001, domain_id: DOM-PAGOS, role_code: PII_UNMASK,     principal: g_gov_lab_pii,      principal_type: GROUP, start_date: 2026-10-26, end_date: 2027-04-26}
+  - {assignment_id: RA-05, project_id: PRJ-PAG-001, domain_id: DOM-PAGOS, role_code: ETL_RUNNER,     principal: g_gov_lab_etl,      principal_type: GROUP, start_date: 2026-10-26}
+  - {assignment_id: RA-06, project_id: PRJ-PAG-001, domain_id: DOM-PAGOS, role_code: NEGATIVE_TEST,  principal: g_gov_lab_noaccess, principal_type: GROUP, start_date: 2026-10-26}

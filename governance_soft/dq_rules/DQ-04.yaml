@@ -1,0 +1,16 @@
+# Esperado con los datos sintéticos: 2 advertencias (las filas pasan).
+kind: dq_rule
+rule_id: DQ-04
+project_id: PRJ-PAG-001
+cde_id: CDE-02
+uc_object: ${data_catalog}.silver.pagos
+column_name: monto
+dimension: Razonabilidad
+engine: EXPECTATION
+expression: "monto <= 50000"
+severity: ADVERTENCIA
+threshold: 0.999
+failure_action: Registrar (expect) y alertar al Steward
+owner: dvega@labpagos.example
+enabled: true
+effective_from: 2026-10-26

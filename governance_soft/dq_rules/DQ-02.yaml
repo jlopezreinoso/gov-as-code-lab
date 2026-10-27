@@ -1,0 +1,17 @@
+# Unicidad no es evaluable fila a fila: se valida en el pipeline (vista de control de gold) tras deduplicar en silver
+# por fecha de archivo y luego _ingest_ts (H-10). Esperado: 5 duplicados resueltos, 0 en gold.
+kind: dq_rule
+rule_id: DQ-02
+project_id: PRJ-PAG-001
+cde_id: CDE-01
+uc_object: ${data_catalog}.gold.pagos
+column_name: pago_id
+dimension: Unicidad
+engine: EXPECTATION
+expression: "count(*) = count(DISTINCT pago_id)"
+severity: CRITICA
+threshold: 1.0
+failure_action: Detener el pipeline (expect_or_fail)
+owner: dvega@labpagos.example
+enabled: true
+effective_from: 2026-10-26
