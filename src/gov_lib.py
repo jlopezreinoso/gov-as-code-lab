@@ -17,6 +17,22 @@ def _q(name: str) -> str:
     return "`" + name.replace("`", "``") + "`"
 
 
+def refresh_pipeline(pipeline_id: str, timeout_s: int = 1800) -> str:
+    """Lanza un update normal (NO full refresh) del pipeline y espera su estado final.
+    Recalcula las vistas materializadas tras un DELETE en su tabla base (H-16)."""
+    import time
+    from databricks.sdk import WorkspaceClient
+    w = WorkspaceClient()
+    update_id = w.pipelines.start_update(pipeline_id=pipeline_id).update_id
+    deadline = time.time() + timeout_s
+    while time.time() < deadline:
+        state = w.pipelines.get_update(pipeline_id=pipeline_id, update_id=update_id).update.state.value
+        if state in ("COMPLETED", "FAILED", "CANCELED"):
+            return state
+        time.sleep(15)
+    return "TIMEOUT"
+
+
 class Gov:
     def __init__(self, spark, gov_catalog: str):
         self.spark, self.cat = spark, gov_catalog

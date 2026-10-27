@@ -34,7 +34,7 @@ def _col(name, typ, not_null=False):
 @dlt.table(
     name=f"{CAT}.bronze.pagos_raw",
     comment="Extracto diario crudo de PayHub (SRC-01), sin transformar, más metadatos de ingesta. Solo ETL. Retención 90 días.",
-    table_properties={"quality": "bronze"},
+    table_properties={"quality": "bronze", "pipelines.reset.allowed": "false"},  # H-18: un full refresh re-ingestaría el landing y reviviría datos borrados por DSAR
 )
 def pagos_raw():
     return (

@@ -2,8 +2,24 @@ from pathlib import Path
 
 import pytest
 
-from gov_specs import SpecError, build_rows, diff_schema, load_specs, sql_files, subst, validate
+from gov_dsar import count_sql, dsar_delete_sql
+from gov_specs import SpecError, build_rows, diff_schema, load_specs, split_targets, sql_files, subst, validate
 from run_sql_file import statements
+
+
+def test_h16_borrar_solo_en_tablas_base_y_recalcular_derivadas():
+    rows = [{"uc_object": "c.bronze.pagos_raw", "table_type": "STREAMING_TABLE"},
+            {"uc_object": "c.silver.pagos", "table_type": "MATERIALIZED_VIEW"},
+            {"uc_object": "c.gold.pagos", "table_type": "MATERIALIZED_VIEW"},
+            {"uc_object": "g.quality.dq_results", "table_type": "MANAGED"}]
+    base, derived = split_targets(rows)
+    assert [r["uc_object"] for r in base] == ["c.bronze.pagos_raw", "g.quality.dq_results"]
+    assert [r["uc_object"] for r in derived] == ["c.silver.pagos", "c.gold.pagos"]
+    h = "a" * 64
+    assert dsar_delete_sql("c.bronze.pagos_raw", "email", h).startswith("DELETE FROM c.bronze.pagos_raw WHERE sha2(")
+    assert count_sql("c.gold.pagos", "email", h).startswith("SELECT count(*) AS n FROM c.gold.pagos WHERE sha2(")
+    with pytest.raises(ValueError):
+        dsar_delete_sql("c.bronze.pagos_raw", "email; DROP", h)
 
 ROOT = Path(__file__).resolve().parents[1]
 VARS = {"gov_catalog": "gov_dev", "data_catalog": "gov_manual_lab", "env": "dev"}

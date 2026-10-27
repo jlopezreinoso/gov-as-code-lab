@@ -104,14 +104,15 @@ resources:
       schedule: {quartz_cron_expression: "0 0 3 * * ?", timezone_id: UTC, pause_status: PAUSED}
       environments:
         - environment_key: default
-          spec: {environment_version: "2", dependencies: [pyyaml]}
+          spec: {environment_version: "2", dependencies: [pyyaml, databricks-sdk]}
       tasks:
         - task_key: purge
           environment_key: default
           spark_python_task:
             python_file: ../src/gov_retention.py
             parameters: ["--root", "${workspace.file_path}", "--gov-catalog", "${var.gov_catalog}",
-                         "--data-catalog", "${var.data_catalog}", "--env", "${bundle.target}", "--vacuum"]
+                         "--data-catalog", "${var.data_catalog}", "--env", "${bundle.target}", "--vacuum",
+                         "--refresh-pipeline", "${resources.pipelines.lab_pagos_medallion.id}"]   # H-16
 
     gov_access_review:
       name: gov_access_review
@@ -147,14 +148,15 @@ resources:
           table_names: ["${var.gov_catalog}.privacy.dsar_requests"]
       environments:
         - environment_key: default
-          spec: {environment_version: "2", dependencies: [pyyaml]}
+          spec: {environment_version: "2", dependencies: [pyyaml, databricks-sdk]}
       tasks:
         - task_key: execute
           environment_key: default
           spark_python_task:
             python_file: ../src/gov_dsar.py
             parameters: ["--root", "${workspace.file_path}", "--gov-catalog", "${var.gov_catalog}",
-                         "--data-catalog", "${var.data_catalog}", "--env", "${bundle.target}"]
+                         "--data-catalog", "${var.data_catalog}", "--env", "${bundle.target}",
+                         "--refresh-pipeline", "${resources.pipelines.lab_pagos_medallion.id}"]   # H-16
 
     gov_itsm_sync:
       name: gov_itsm_sync

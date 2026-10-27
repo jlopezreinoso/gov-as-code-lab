@@ -202,6 +202,17 @@ def id_of(*parts) -> str:
     return hashlib.sha1("|".join("" if p is None else str(p) for p in parts).encode()).hexdigest()[:20]
 
 
+# H-16: las vistas materializadas (y vistas) no admiten DELETE: se recalculan desde su tabla base con un refresh.
+DERIVED_TYPES = {"MATERIALIZED_VIEW", "VIEW"}
+
+
+def split_targets(rows) -> tuple[list, list]:
+    """Separa las tablas base (DELETE directo) de las derivadas (se recalculan con el refresh del pipeline).
+    Cada fila trae 'table_type' de system.information_schema.tables."""
+    base = [r for r in rows if str(r["table_type"] or "").upper() not in DERIVED_TYPES]
+    return base, [r for r in rows if r not in base]
+
+
 def pending_migrations(files: list[str], applied: set[str]) -> list[str]:
     """Migraciones NNNN_descripcion.sql aún no aplicadas, en orden numérico."""
     def num(f):

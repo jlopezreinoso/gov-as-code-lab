@@ -82,7 +82,11 @@ targets:
         gov_access_review: {run_as: {service_principal_name: "${var.runner_sp}"}}
         gov_itsm_sync:     {run_as: {service_principal_name: "${var.runner_sp}"}}
       pipelines:
-        lab_pagos_medallion: {run_as: {service_principal_name: "${var.runner_sp}"}}
+        lab_pagos_medallion:
+          run_as: {service_principal_name: "${var.runner_sp}"}
+          permissions:               # H-16: gov_retention y gov_dsar (como runner) lanzan el refresh del pipeline
+            - service_principal_name: ${var.runner_sp}
+              level: CAN_RUN
     permissions:                     # el runner debe poder leer el código desplegado en la carpeta del bundle
       - group_name: g_gov_lab_admin  # deployer (EXC-06): conserva la administración de la carpeta y los jobs
         level: CAN_MANAGE
