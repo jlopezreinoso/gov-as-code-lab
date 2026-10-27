@@ -4,7 +4,7 @@ Secciones (cada una aislada: si una falla, las demás siguen y el error queda en
   schema    → schema_change.schema_snapshots + schema_drift_events (contrato vs information_schema)
   controls  → risk_control.control_test_results (SQL de cada prueba: 0 filas = PASS)
   dq        → quality.dq_results (reglas con engine = CUSTOM)
-  settings  → platform.platform_settings_baseline (governance/platform/settings.yaml vs Workspace Conf API)
+  settings  → platform.platform_settings_baseline (governance_soft/platform/settings.yaml vs Workspace Conf API)
 
 --fail-on-control-fail hace fallar el job si alguna prueba de control da FAIL (se usa como gate en CI).
 """
@@ -97,7 +97,7 @@ def reconcile_dq(spark, gov, cat: str) -> int:
 
 
 def reconcile_settings(gov, root: Path) -> int:
-    path = root / "governance" / "platform" / "settings.yaml"
+    path = root / "governance_soft" / "platform" / "settings.yaml"
     if not path.exists():
         return 0
     settings = yaml.safe_load(path.read_text(encoding="utf-8")).get("workspace", [])

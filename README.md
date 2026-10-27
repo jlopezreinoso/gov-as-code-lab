@@ -25,7 +25,7 @@ quien solicita no aprueba), recertificación, firmas de gate e incidentes.
 
 ## Permisos (separación de funciones)
 
-`gov_grants` aplica, desde `governance/platform/table_writers.yaml`:
+`gov_grants` aplica, desde `governance_soft/platform/table_writers.yaml`:
 - `grp-gov-deployers` (CI): MODIFY solo en tablas de definición.
 - `grp-gov-runners` (jobs y pipelines): MODIFY solo en resultados y eventos.
 - `grp-gov-app` (App/ITSM): MODIFY solo en tablas de decisiones humanas.
@@ -43,7 +43,7 @@ gov-as-code/
 ├── sql/migrations/                # NNNN_descripcion.sql, una vez cada una
 ├── sql/gov_table_properties.sql   # Predictive Optimization + tags de retención
 ├── sql/scorecard_queries.sql      # consultas para el dashboard de scorecard
-├── governance/                    # LO QUE ESCRIBEN LAS PERSONAS (revisado por PR)
+├── governance_soft/                    # LO QUE ESCRIBEN LAS PERSONAS (revisado por PR)
 │   ├── policies/ tags/ controls/ contracts/ dq_rules/ registry/
 │   ├── masks/ abac/               # implementación nativa
 │   ├── tests/                     # pruebas de control (devuelven violaciones)

@@ -24,7 +24,7 @@ def test_plantillas_del_repo_son_validas():
 def test_sql_de_implementacion_existe_y_se_divide():
     specs = load_specs(ROOT, VARS)
     files = sql_files(specs)
-    assert files == ["governance/masks/mask_restricted.sql", "governance/abac/pol_sec_003.sql"]
+    assert files == ["governance_soft/masks/mask_restricted.sql", "governance_soft/abac/pol_sec_003.sql"]
     for f in files:
         sql = subst((ROOT / f).read_text(encoding="utf-8"), VARS)
         assert "${" not in sql

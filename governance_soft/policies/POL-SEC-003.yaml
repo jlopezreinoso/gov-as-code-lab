@@ -13,5 +13,5 @@ document_uri: https://intranet/politicas/POL-SEC-003.pdf
 implementation:
   # Se ejecutan en orden en cada gov_sync (deben ser idempotentes: CREATE OR REPLACE / IF NOT EXISTS).
   sql_files:
-    - governance/masks/mask_restricted.sql
-    - governance/abac/pol_sec_003.sql
+    - governance_soft/masks/mask_restricted.sql
+    - governance_soft/abac/pol_sec_003.sql

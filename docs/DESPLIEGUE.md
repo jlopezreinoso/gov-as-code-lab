@@ -20,8 +20,8 @@ manualmente desde tu computador la primera vez.
 ## 1. Ajustar la configuración
 
 1. `databricks.yml`: reemplazar los dos `host`, el `warehouse_id` y, si cambian, los nombres de grupos y catálogos.
-2. `governance/registry/*.yaml`, `policies/`, `controls/`, `contracts/`: reemplazar los ejemplos por los de tu proyecto.
-3. `governance/platform/settings.yaml`: validar los nombres de las keys en tu workspace.
+2. `governance_soft/registry/*.yaml`, `policies/`, `controls/`, `contracts/`: reemplazar los ejemplos por los de tu proyecto.
+3. `governance_soft/platform/settings.yaml`: validar los nombres de las keys en tu workspace.
 4. `resources/gov_jobs.yml`: borrar los jobs condicionales que tu proyecto no use (ver el comentario inicial).
 5. Validar localmente:
 
@@ -59,7 +59,7 @@ El CI no crea el catálogo por sí solo la primera vez. Ejecutar una vez por amb
 databricks bundle validate -t dev
 databricks bundle deploy -t dev
 databricks bundle run gov_bootstrap -t dev     # catálogo, migraciones, propiedades y permisos
-databricks bundle run gov_sync -t dev          # carga las definiciones de governance/
+databricks bundle run gov_sync -t dev          # carga las definiciones de governance_soft/
 databricks bundle run gov_reconcile -t dev     # primera conciliación + alertas
 ```
 

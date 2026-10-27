@@ -12,7 +12,7 @@ from pathlib import Path
 
 import yaml
 
-# Tablas que se cargan desde governance/registry/<schema>.<tabla>.yaml (ver hoja 05_COMO_SE_CARGA).
+# Tablas que se cargan desde governance_soft/registry/<schema>.<tabla>.yaml (ver hoja 05_COMO_SE_CARGA).
 REGISTRY_TABLES = {
     "access.sod_rules", "ai.agent_registry", "ai.ai_asset_registry", "ai.ai_risk_controls",
     "consumption.app_registry", "consumption.bi_reports_registry", "consumption.domain_interface_contracts",
@@ -70,7 +70,7 @@ def load_specs(root: str | Path, variables: dict[str, str] | None = None) -> lis
     """Lee todos los YAML de <root>/governance, aplica variables y anota la ruta de origen."""
     root = Path(root)
     specs = []
-    for path in sorted((root / "governance").rglob("*.yaml")):
+    for path in sorted((root / "governance_soft").rglob("*.yaml")):
         if path.parent.name == "platform":  # settings.yaml lo consume gov_reconcile
             continue
         doc = yaml.safe_load(subst(path.read_text(encoding="utf-8"), variables or {}))

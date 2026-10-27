@@ -1,4 +1,4 @@
-"""Tarea de alertas (última tarea de gov_reconcile): ejecuta governance/alerts/*.sql.
+"""Tarea de alertas (última tarea de gov_reconcile): ejecuta governance_soft/alerts/*.sql.
 
 Cada SQL devuelve las filas que requieren atención (0 filas = sin alerta). Si alguna alerta tiene filas, la tarea
 falla y el job envía el correo configurado en email_notifications (on_failure). Sin servicios adicionales.
@@ -16,7 +16,7 @@ def main() -> None:
     spark = SparkSession.builder.getOrCreate()
     variables = {"gov_catalog": a.gov_catalog, "data_catalog": a.data_catalog, "env": a.env}
     fired = []
-    for f in sorted((Path(a.root) / "governance/alerts").glob("*.sql")):
+    for f in sorted((Path(a.root) / "governance_soft/alerts").glob("*.sql")):
         df = spark.sql(subst(f.read_text(encoding="utf-8"), variables).strip().rstrip(";"))
         n = df.count()
         print(f"{'ALERTA' if n else 'ok    '} {f.stem}: {n} filas")

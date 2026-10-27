@@ -19,9 +19,9 @@ tests:
     description: Grants directos a usuarios en el catálogo de datos
     expected: 0 filas
     automated: true
-    query_or_script_uri: governance/tests/acc_001_grants_to_users.sql
+    query_or_script_uri: governance_soft/tests/acc_001_grants_to_users.sql
   - test_id: TST-ACC-002-01
     description: ALL PRIVILEGES en el catálogo de datos
     expected: 0 filas
     automated: true
-    query_or_script_uri: governance/tests/acc_002_all_privileges.sql
+    query_or_script_uri: governance_soft/tests/acc_002_all_privileges.sql

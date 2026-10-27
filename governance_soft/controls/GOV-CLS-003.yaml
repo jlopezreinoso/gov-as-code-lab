@@ -22,5 +22,5 @@ tests:
     description: Columnas restricted del catálogo de datos (lista para verificar cobertura de la política)
     expected: 0 filas sin política aplicable
     automated: true
-    query_or_script_uri: governance/tests/cls_003_restricted_without_tag_policy.sql
+    query_or_script_uri: governance_soft/tests/cls_003_restricted_without_tag_policy.sql
     environment: all

@@ -47,7 +47,7 @@ resources:
 
     gov_sync:
       name: gov_sync
-      description: Aplica en Databricks lo declarado en governance/ y lo registra (MERGE). Lo ejecuta el CI tras cada deploy.
+      description: Aplica en Databricks lo declarado en governance_soft/ y lo registra (MERGE). Lo ejecuta el CI tras cada deploy.
       tags: {cost_center: gobierno-datos, component: gov-as-code}
       email_notifications: {on_failure: ["${var.alert_email}"]}
       environments:

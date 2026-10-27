@@ -19,7 +19,7 @@ PRINCIPALS = {k: f"grp-{k}" for k in ("deployer", "runner", "app", "readers", "a
 
 
 def writers():
-    return yaml.safe_load((ROOT / "governance/platform/table_writers.yaml").read_text(encoding="utf-8"))["tables"]
+    return yaml.safe_load((ROOT / "governance_soft/platform/table_writers.yaml").read_text(encoding="utf-8"))["tables"]
 
 
 def test_table_writers_cubre_exactamente_las_tablas_del_ddl():
@@ -78,7 +78,7 @@ def test_itsm_genie_y_evaluacion():
 
 
 def test_alertas_y_bundle_referencian_archivos_existentes():
-    assert len(list((ROOT / "governance/alerts").glob("*.sql"))) >= 5
+    assert len(list((ROOT / "governance_soft/alerts").glob("*.sql"))) >= 5
     jobs = yaml.safe_load((ROOT / "resources/gov_jobs.yml").read_text(encoding="utf-8"))["resources"]["jobs"]
     # LAB: 7 jobs (sin gov_ai_eval, gov_genie_benchmarks, gov_ontology_hygiene: IA/Genie/Ontology inactivos)
     assert set(jobs) == {"gov_bootstrap", "gov_sync", "gov_reconcile", "gov_retention", "gov_access_review", "gov_dsar", "gov_itsm_sync"}

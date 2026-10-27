@@ -1,6 +1,6 @@
 """Job gov_itsm_sync (condicional): trae decisiones humanas aprobadas en el ITSM (ServiceNow, Jira...) al catálogo.
 
-Configuración en governance/platform/itsm_mapping.yaml: URL, secreto y, por cada tipo de ticket, la tabla destino,
+Configuración en governance_soft/platform/itsm_mapping.yaml: URL, secreto y, por cada tipo de ticket, la tabla destino,
 la clave y el mapeo campo_ticket → columna. Usar como alternativa a la App de revisión (no ambas para la misma tabla).
 """
 from __future__ import annotations
@@ -30,7 +30,7 @@ def main() -> None:
     from databricks.sdk.runtime import dbutils
     from pyspark.sql import SparkSession
     from gov_lib import Gov
-    cfg = yaml.safe_load((Path(a.root) / "governance/platform/itsm_mapping.yaml").read_text(encoding="utf-8"))
+    cfg = yaml.safe_load((Path(a.root) / "governance_soft/platform/itsm_mapping.yaml").read_text(encoding="utf-8"))
     token = dbutils.secrets.get(cfg["secret_scope"], cfg["secret_key"])
     gov = Gov(SparkSession.builder.getOrCreate(), a.gov_catalog)
     for flow in cfg["flows"]:
