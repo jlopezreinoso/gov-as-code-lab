@@ -14,4 +14,4 @@ rows:
     grain: 1 fila por pago_id
     refresh: Diaria
     sla: D-1 a las 07:00 America/Guayaquil; 99 % mensual
-    lifecycle_status: EN_CONSTRUCCION
+    lifecycle_status: CERTIFICADO   # G6, 27-oct-2026 (evidence pack N18, acta LAB-002)

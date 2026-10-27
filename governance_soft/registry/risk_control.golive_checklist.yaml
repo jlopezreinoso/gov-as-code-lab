@@ -1,0 +1,19 @@
+# Checklist de go-live del producto DP-01 (evidence pack N18, expediente 09). Verificado el 27-oct-2026.
+kind: registry
+table: risk_control.golive_checklist
+keys: [project_id, item_id]
+rows:
+  - {project_id: PRJ-PAG-001, item_id: GL-01, category: Documentación,  status: CUMPLE, owner: cmendez@labpagos.example,  verified_at: 2026-10-27, evidence_uri: "Expediente 00-07; acta LAB-001"}
+  - {project_id: PRJ-PAG-001, item_id: GL-02, category: Plataforma,     status: CUMPLE, owner: erios@labpagos.example,    verified_at: 2026-10-27, evidence_uri: "06_G3_ENVIRONMENT_READINESS.md"}
+  - {project_id: PRJ-PAG-001, item_id: GL-03, category: Como código,    status: CUMPLE, owner: amolina@labpagos.example,  verified_at: 2026-10-27, evidence_uri: "github jlopezreinoso/gov-as-code-lab"}
+  - {project_id: PRJ-PAG-001, item_id: GL-04, category: Controles,      status: CUMPLE, owner: sherrera@labpagos.example, verified_at: 2026-10-27, evidence_uri: "gov_reconcile run 404148604503704: 10/10 PASS"}
+  - {project_id: PRJ-PAG-001, item_id: GL-05, category: Contrato,       status: CUMPLE, owner: fruiz@labpagos.example,    verified_at: 2026-10-27, evidence_uri: "schema_drift_events: 0 abiertos"}
+  - {project_id: PRJ-PAG-001, item_id: GL-06, category: Calidad,        status: CUMPLE, owner: dvega@labpagos.example,    verified_at: 2026-10-27, evidence_uri: "dq_results DQ-06/07 PASS; event_log_lab_pagos"}
+  - {project_id: PRJ-PAG-001, item_id: GL-07, category: Accesos,        status: CUMPLE, owner: mtorres@labpagos.example,  verified_at: 2026-10-27, evidence_uri: "Bitácora G5: 4/4 PASS"}
+  - {project_id: PRJ-PAG-001, item_id: GL-08, category: Privacidad,     status: CUMPLE, owner: vcastro@labpagos.example,  verified_at: 2026-10-27, evidence_uri: "dsar_execution_log DSAR-LAB-0001 VERIFICADO"}
+  - {project_id: PRJ-PAG-001, item_id: GL-09, category: Retención,      status: CUMPLE, owner: vcastro@labpagos.example,  verified_at: 2026-10-27, evidence_uri: "purge_log (tablas y volume landing)"}
+  - {project_id: PRJ-PAG-001, item_id: GL-10, category: Linaje,         status: CUMPLE, owner: pcedeno@labpagos.example,  verified_at: 2026-10-27, evidence_uri: "Pipeline lab_pagos_medallion"}
+  - {project_id: PRJ-PAG-001, item_id: GL-11, category: Metadatos,      status: CUMPLE, owner: dvega@labpagos.example,    verified_at: 2026-10-27, evidence_uri: "T-11 y T-11b PASS"}
+  - {project_id: PRJ-PAG-001, item_id: GL-12, category: Accesos,        status: CUMPLE, owner: mtorres@labpagos.example,  verified_at: 2026-10-27, evidence_uri: "T-01 PASS; grants solo a grupos"}
+  - {project_id: PRJ-PAG-001, item_id: GL-13, category: Operación,      status: CUMPLE, owner: amolina@labpagos.example,  verified_at: 2026-10-27, evidence_uri: "10_G6_RUNBOOK_HANDOVER.md"}
+  - {project_id: PRJ-PAG-001, item_id: GL-14, category: Riesgo,         status: CUMPLE, owner: vcastro@labpagos.example,  verified_at: 2026-10-27, evidence_uri: "09_G6_EVIDENCE_PACK.md §3 (RR-01..RR-07)"}

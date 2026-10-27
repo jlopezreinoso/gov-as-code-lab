@@ -9,3 +9,7 @@ effective_from: 2026-10-26
 review_date: 2027-10-26
 status: VIGENTE
 document_uri: EXPEDIENTE_PREVIO_GOV_MANUAL_LAB/01_PRE-G0_OFICINA_DAMA.md#P04
+implementation:
+  # G6: certificación de productos con evidence pack firmado (N18).
+  sql_files:
+    - governance_soft/metadata/certificacion_dp01.sql
