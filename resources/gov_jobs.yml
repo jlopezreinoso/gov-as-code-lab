@@ -74,7 +74,7 @@ resources:
       description: Conciliación diaria declarado vs real + alertas de gobierno.
       tags: {cost_center: gobierno-datos, component: gov-as-code}
       email_notifications: {on_failure: ["${var.alert_email}"]}
-      schedule: {quartz_cron_expression: "0 0 6 * * ?", timezone_id: UTC, pause_status: UNPAUSED}
+      schedule: {quartz_cron_expression: "0 0 6 * * ?", timezone_id: UTC, pause_status: PAUSED}
       environments:
         - environment_key: default
           spec: {environment_version: "2", dependencies: [pyyaml, databricks-sdk]}
@@ -99,7 +99,7 @@ resources:
       description: Purga por política de retención (tags retention_policy/retention_column), respeta legal holds, VACUUM.
       tags: {cost_center: gobierno-datos, component: gov-as-code}
       email_notifications: {on_failure: ["${var.alert_email}"]}
-      schedule: {quartz_cron_expression: "0 0 3 * * ?", timezone_id: UTC, pause_status: UNPAUSED}
+      schedule: {quartz_cron_expression: "0 0 3 * * ?", timezone_id: UTC, pause_status: PAUSED}
       environments:
         - environment_key: default
           spec: {environment_version: "2", dependencies: [pyyaml]}
@@ -116,7 +116,7 @@ resources:
       description: Abre la recertificación trimestral y detecta accesos temporales vencidos (diario).
       tags: {cost_center: gobierno-datos, component: gov-as-code}
       email_notifications: {on_failure: ["${var.alert_email}"]}
-      schedule: {quartz_cron_expression: "0 30 5 * * ?", timezone_id: UTC, pause_status: UNPAUSED}
+      schedule: {quartz_cron_expression: "0 30 5 * * ?", timezone_id: UTC, pause_status: PAUSED}
       environments:
         - environment_key: default
           spec: {environment_version: "2", dependencies: [pyyaml]}

@@ -48,6 +48,8 @@ targets:
   dev:
     mode: development
     default: true
+    presets:
+      trigger_pause_status: PAUSED   # LAB: ningún schedule corre hasta reescribir governance_soft/ para pagos (G4)
     workspace:
       host: https://adb-1754516251450588.8.azuredatabricks.net
     variables:                       # LAB: mapeo a los grupos g_gov_lab_* (EXC-06 por SoD)
