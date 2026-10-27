@@ -9,3 +9,5 @@ GRANT USE SCHEMA ON SCHEMA ${data_catalog}.gold TO `g_gov_lab_pii`;
 GRANT SELECT ON TABLE ${data_catalog}.gold.pagos TO `g_gov_lab_ec`;
 GRANT SELECT ON TABLE ${data_catalog}.gold.pagos TO `g_gov_lab_pe`;
 GRANT SELECT ON TABLE ${data_catalog}.gold.pagos TO `g_gov_lab_pii`;
+-- H-17: event log del pipeline DP-01 = evidencia de expectations (C-07); lo leen Gov/Steward (g_gov_lab_admin en el lab).
+GRANT SELECT ON TABLE ${data_catalog}.silver.event_log_lab_pagos TO `g_gov_lab_admin`;

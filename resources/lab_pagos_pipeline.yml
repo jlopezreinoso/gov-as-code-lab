@@ -14,3 +14,5 @@ resources:
         data_catalog: ${var.data_catalog}
         landing_path: /Volumes/${var.data_catalog}/bronze/landing/payhub/
       tags: {cost_center: CC-PAG-001, component: dp01}
+      # H-17: nombre fijo para poder otorgar lectura (evidencia DQ de C-07). Prefijo event_log_ = objeto técnico (los tests lo excluyen).
+      event_log: {catalog: "${var.data_catalog}", schema: silver, name: event_log_lab_pagos}
