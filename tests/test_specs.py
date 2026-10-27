@@ -31,7 +31,8 @@ def test_sql_de_implementacion_existe_y_se_divide():
     specs = load_specs(ROOT, VARS)
     files = sql_files(specs)
     assert files == ["governance_soft/masks/fn_pagos_security.sql", "governance_soft/abac/p_filter_country.sql",
-                     "governance_soft/abac/p_mask_email.sql", "governance_soft/abac/grants_runner.sql"]
+                     "governance_soft/abac/p_mask_email.sql", "governance_soft/abac/grants_runner.sql",
+                     "governance_soft/abac/grants_consumers.sql", "governance_soft/metadata/tags_dp01.sql"]
     for f in files:
         sql = subst((ROOT / f).read_text(encoding="utf-8"), VARS)
         assert "${" not in sql

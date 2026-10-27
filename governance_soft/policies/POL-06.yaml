@@ -9,3 +9,7 @@ effective_from: 2026-10-26
 review_date: 2027-10-26
 status: VIGENTE
 document_uri: EXPEDIENTE_PREVIO_GOV_MANUAL_LAB/01_PRE-G0_OFICINA_DAMA.md#P05
+implementation:
+  # Los comentarios los fija el pipeline (glosario); aquí, los tags de owner, dominio, sensibilidad, CDE, retención y DSAR.
+  sql_files:
+    - governance_soft/metadata/tags_dp01.sql
