@@ -53,10 +53,12 @@ def main() -> None:
     p.add_argument("--owner-group", default="")
     p.add_argument("--data-catalog", default="")
     p.add_argument("--env", default="")
+    p.add_argument("--catalog-location", default="", help="MANAGED LOCATION del catálogo de gobierno")
     a = p.parse_args()
     from pyspark.sql import SparkSession
     spark = SparkSession.builder.getOrCreate()
-    variables = {"gov_catalog": a.gov_catalog, "owner_group": a.owner_group, "data_catalog": a.data_catalog, "env": a.env}
+    variables = {"gov_catalog": a.gov_catalog, "owner_group": a.owner_group, "data_catalog": a.data_catalog, "env": a.env,
+                 "catalog_location": a.catalog_location}
     if a.file:
         print(f"{run_file(spark, a.file, variables)} sentencias ejecutadas desde {a.file}")
     if a.migrations_dir:

@@ -43,6 +43,12 @@ variables:
   alert_email:
     description: Destinatario de alertas y fallas de los jobs de gobierno
     default: gobierno-datos@empresa.com
+  gov_catalog_location:
+    description: MANAGED LOCATION del catálogo de gobierno (obligatoria si el metastore no tiene storage root)
+    default: ""
+  runner_sp:
+    description: Application ID del SP que ejecuta los jobs de resultados (runner); vacío = el usuario que despliega
+    default: ""
 
 targets:
   dev:
@@ -63,6 +69,24 @@ targets:
       auditors_group: g_gov_lab_admin # EXC-06
       warehouse_id: b67cef0696122ed0 # dasboard: serverless, auto-stop 10 min
       alert_email: jalopez@softconsulting.com.ec
+      gov_catalog_location: abfss://aci-genie@adlsucragllm.dfs.core.windows.net/gov_dev  # misma convención que /laboratorio
+      runner_sp: 6d48f6a4-0a71-4232-99f2-7d4a94f98811   # sp_etl_pagos (ADR-003, EXC-05)
+    # H-12 + SoD: bootstrap y sync corren como el deployer (en el lab, el usuario: EXC-06);
+    # los jobs que escriben RESULTADOS corren como el runner, que ve gold.pagos sin filtro por país.
+    resources:
+      jobs:
+        gov_reconcile:     {run_as: {service_principal_name: "${var.runner_sp}"}}
+        gov_retention:     {run_as: {service_principal_name: "${var.runner_sp}"}}
+        gov_dsar:          {run_as: {service_principal_name: "${var.runner_sp}"}}
+        gov_access_review: {run_as: {service_principal_name: "${var.runner_sp}"}}
+        gov_itsm_sync:     {run_as: {service_principal_name: "${var.runner_sp}"}}
+    permissions:                     # el runner debe poder leer el código desplegado en la carpeta del bundle
+      - group_name: g_gov_lab_admin  # deployer (EXC-06): conserva la administración de la carpeta y los jobs
+        level: CAN_MANAGE
+      - user_name: ${workspace.current_user.userName}   # dueño de la carpeta personal donde vive el bundle en dev
+        level: CAN_MANAGE
+      - service_principal_name: ${var.runner_sp}
+        level: CAN_VIEW
 
   prd:
     mode: production

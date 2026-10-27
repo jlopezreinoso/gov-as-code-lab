@@ -10,7 +10,7 @@ resources:
     gov_bootstrap:
       name: gov_bootstrap
       description: Crea/actualiza el catálogo de gobierno, aplica migraciones, propiedades y permisos. Idempotente.
-      tags: {cost_center: gobierno-datos, component: gov-as-code}
+      tags: {cost_center: CC-GOV-001, component: gov-as-code}
       environments:
         - environment_key: default
           spec: {environment_version: "2", dependencies: [pyyaml]}
@@ -20,7 +20,8 @@ resources:
           spark_python_task:
             python_file: ../src/run_sql_file.py
             parameters: ["--file", "${workspace.file_path}/sql/gov_catalog_ddl.sql",
-                         "--gov-catalog", "${var.gov_catalog}", "--owner-group", "${var.owner_group}"]
+                         "--gov-catalog", "${var.gov_catalog}", "--owner-group", "${var.owner_group}",
+                         "--catalog-location", "${var.gov_catalog_location}"]
         - task_key: migrations
           depends_on: [{task_key: create_catalog}]
           environment_key: default
@@ -48,7 +49,7 @@ resources:
     gov_sync:
       name: gov_sync
       description: Aplica en Databricks lo declarado en governance_soft/ y lo registra (MERGE). Lo ejecuta el CI tras cada deploy.
-      tags: {cost_center: gobierno-datos, component: gov-as-code}
+      tags: {cost_center: CC-GOV-001, component: gov-as-code}
       email_notifications: {on_failure: ["${var.alert_email}"]}
       environments:
         - environment_key: default
@@ -72,7 +73,7 @@ resources:
     gov_reconcile:
       name: gov_reconcile
       description: Conciliación diaria declarado vs real + alertas de gobierno.
-      tags: {cost_center: gobierno-datos, component: gov-as-code}
+      tags: {cost_center: CC-GOV-001, component: gov-as-code}
       email_notifications: {on_failure: ["${var.alert_email}"]}
       schedule: {quartz_cron_expression: "0 0 6 * * ?", timezone_id: UTC, pause_status: PAUSED}
       environments:
@@ -97,7 +98,7 @@ resources:
     gov_retention:
       name: gov_retention
       description: Purga por política de retención (tags retention_policy/retention_column), respeta legal holds, VACUUM.
-      tags: {cost_center: gobierno-datos, component: gov-as-code}
+      tags: {cost_center: CC-GOV-001, component: gov-as-code}
       email_notifications: {on_failure: ["${var.alert_email}"]}
       schedule: {quartz_cron_expression: "0 0 3 * * ?", timezone_id: UTC, pause_status: PAUSED}
       environments:
@@ -114,7 +115,7 @@ resources:
     gov_access_review:
       name: gov_access_review
       description: Abre la recertificación trimestral y detecta accesos temporales vencidos (diario).
-      tags: {cost_center: gobierno-datos, component: gov-as-code}
+      tags: {cost_center: CC-GOV-001, component: gov-as-code}
       email_notifications: {on_failure: ["${var.alert_email}"]}
       schedule: {quartz_cron_expression: "0 30 5 * * ?", timezone_id: UTC, pause_status: PAUSED}
       environments:
@@ -138,7 +139,7 @@ resources:
     gov_dsar:
       name: gov_dsar
       description: "[PII] Ejecuta supresiones aprobadas cuando cambia privacy.dsar_requests."
-      tags: {cost_center: gobierno-datos, component: gov-as-code}
+      tags: {cost_center: CC-GOV-001, component: gov-as-code}
       email_notifications: {on_failure: ["${var.alert_email}"]}
       trigger:
         table_update:
@@ -157,7 +158,7 @@ resources:
     gov_itsm_sync:
       name: gov_itsm_sync
       description: "[Opcional] Trae decisiones aprobadas desde el ITSM (alternativa a la App)."
-      tags: {cost_center: gobierno-datos, component: gov-as-code}
+      tags: {cost_center: CC-GOV-001, component: gov-as-code}
       email_notifications: {on_failure: ["${var.alert_email}"]}
       schedule: {quartz_cron_expression: "0 0/15 * * * ?", timezone_id: UTC, pause_status: PAUSED}
       environments:

@@ -6,7 +6,8 @@
 -- Las tablas no usadas por un proyecto quedan vacías; su uso depende de 'gov.activation'.
 -- =====================================================================
 
-CREATE CATALOG IF NOT EXISTS ${gov_catalog} COMMENT 'Catálogo de gobierno como código (control plane)';
+-- LAB: el metastore no tiene storage root → el catálogo necesita MANAGED LOCATION (variable gov_catalog_location).
+CREATE CATALOG IF NOT EXISTS ${gov_catalog} MANAGED LOCATION '${catalog_location}' COMMENT 'Catálogo de gobierno como código (control plane)';
 ALTER CATALOG ${gov_catalog} OWNER TO `${owner_group}`;
 
 -- ---------------------------------------------------------------- org
