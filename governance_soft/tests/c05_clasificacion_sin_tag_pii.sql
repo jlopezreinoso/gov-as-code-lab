@@ -8,3 +8,5 @@ LEFT JOIN system.information_schema.column_tags p
 WHERE d.catalog_name = '${data_catalog}'
   AND d.tag_name IN ('class.email_address', 'class.name', 'class.phone_number', 'class.location', 'class.ip_address')
   AND p.column_name IS NULL
+  AND NOT startswith(d.table_name, '__materialization') AND NOT startswith(d.table_name, 'event_log_')
+-- Excluye objetos internos del pipeline (almacenamiento de MVs y event log): no son productos de datos.

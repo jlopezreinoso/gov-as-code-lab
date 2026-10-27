@@ -9,3 +9,5 @@ LEFT JOIN system.information_schema.table_tags c
  AND c.tag_name = 'retention_column'
 WHERE t.table_catalog = '${data_catalog}' AND t.table_schema IN ('bronze', 'silver', 'gold')
   AND (p.table_name IS NULL OR c.table_name IS NULL)
+  AND NOT startswith(t.table_name, '__materialization') AND NOT startswith(t.table_name, 'event_log_')
+-- Excluye objetos internos del pipeline (almacenamiento de MVs y event log): no son productos de datos.

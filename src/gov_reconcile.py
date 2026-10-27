@@ -35,8 +35,9 @@ def reconcile_schema(spark, gov, cat: str) -> int:
         if len(parts) != 3:
             print(f"uc_object inválido en {c.contract_id}: {c.uc_object}")
             continue
-        actual = [{"name": r.column_name, "type": r.data_type, "nullable": r.is_nullable == "YES"} for r in spark.sql(f"""
-            SELECT column_name, data_type, is_nullable FROM system.information_schema.columns
+        # full_data_type conserva la precisión (DECIMAL(12,2)); data_type devuelve solo DECIMAL → TYPE falso.
+        actual = [{"name": r.column_name, "type": r.full_data_type, "nullable": r.is_nullable == "YES"} for r in spark.sql(f"""
+            SELECT column_name, full_data_type, is_nullable FROM system.information_schema.columns
             WHERE table_catalog = '{parts[0]}' AND table_schema = '{parts[1]}' AND table_name = '{parts[2]}'
             ORDER BY ordinal_position""").collect()]
         contract = [{"name": r.column_name, "type": r.data_type, "nullable": r.nullable} for r in spark.sql(f"""
@@ -54,6 +55,10 @@ def reconcile_schema(spark, gov, cat: str) -> int:
                  "detected_at": now, "change_type": e["change_type"], "column_name": e["column_name"],
                  "contract_version": c.version, "action": e["detail"], "status": "ABIERTO"} for e in drift]
         gov.merge("schema_change.schema_drift_events", ["event_id"], rows)  # mismo evento abierto no se duplica
+        # Lo que ya no se reproduce queda RESUELTO (si no, el drift corregido sigue abierto para siempre).
+        vigentes = ", ".join(f"'{r['event_id']}'" for r in rows) or "''"
+        spark.sql(f"""UPDATE {cat}.schema_change.schema_drift_events SET status = 'RESUELTO'
+                      WHERE uc_object = '{c.uc_object}' AND status = 'ABIERTO' AND event_id NOT IN ({vigentes})""")
         events += len(rows)
     return events
 

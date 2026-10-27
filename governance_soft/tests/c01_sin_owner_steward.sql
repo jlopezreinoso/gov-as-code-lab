@@ -6,5 +6,7 @@ FROM system.information_schema.tables t
 LEFT JOIN system.information_schema.table_tags g
   ON g.catalog_name = t.table_catalog AND g.schema_name = t.table_schema AND g.table_name = t.table_name
 WHERE t.table_catalog = '${data_catalog}' AND t.table_schema = 'gold'
+  AND NOT startswith(t.table_name, '__materialization') AND NOT startswith(t.table_name, 'event_log_')
 GROUP BY t.table_schema, t.table_name
 HAVING tiene_owner = 0 OR tiene_steward = 0
+-- Excluye objetos internos del pipeline (almacenamiento de MVs y event log): no son productos de datos.

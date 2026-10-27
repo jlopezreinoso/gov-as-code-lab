@@ -6,3 +6,5 @@ LEFT JOIN system.information_schema.column_tags t
  AND t.column_name = c.column_name AND t.tag_name = 'gov_lab_country' AND t.tag_value = 'country_code'
 WHERE c.table_catalog = '${data_catalog}' AND c.table_schema IN ('silver', 'gold')
   AND c.column_name = 'pais' AND t.column_name IS NULL
+  AND NOT startswith(c.table_name, '__materialization') AND NOT startswith(c.table_name, 'event_log_')
+-- Excluye objetos internos del pipeline (almacenamiento de MVs y event log): no son productos de datos.

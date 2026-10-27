@@ -5,3 +5,5 @@ LEFT JOIN system.information_schema.table_tags d
   ON d.catalog_name = p.catalog_name AND d.schema_name = p.schema_name AND d.table_name = p.table_name
  AND d.tag_name = 'dsar_subject_key'
 WHERE p.catalog_name = '${data_catalog}' AND p.tag_name = 'gov_lab_pii' AND d.table_name IS NULL
+  AND NOT startswith(p.table_name, '__materialization') AND NOT startswith(p.table_name, 'event_log_')
+-- Excluye objetos internos del pipeline (almacenamiento de MVs y event log): no son productos de datos.
