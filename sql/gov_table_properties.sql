@@ -13,4 +13,4 @@ ALTER TABLE ${gov_catalog}.processing.processing_errors SET TAGS ('retention_pol
 ALTER TABLE ${gov_catalog}.semantic.genie_benchmark_results SET TAGS ('retention_policy' = 'RET-GOV-EVENTS', 'retention_column' = 'created_at');
 
 -- 3) Metadata de gobierno del propio catálogo.
-ALTER CATALOG ${gov_catalog} SET TAGS ('data_layer' = 'control_plane', 'cost_center' = 'gobierno-datos');
+ALTER CATALOG ${gov_catalog} SET TAGS ('data_layer' = 'control_plane', 'cost_center' = 'CC-GOV-001');
