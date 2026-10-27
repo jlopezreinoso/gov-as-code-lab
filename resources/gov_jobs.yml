@@ -2,6 +2,7 @@
 # BASELINE (siempre): gov_bootstrap, gov_sync, gov_reconcile, gov_retention, gov_access_review.
 # CONDICIONALES (borrar los que el proyecto no use): gov_dsar (PII), gov_ai_eval (IA/HITL),
 #   gov_genie_benchmarks (GENIE/ONT), gov_ontology_hygiene (ONT), gov_itsm_sync (si las decisiones viven en el ITSM).
+# LAB gov_manual_lab: se quitaron gov_ai_eval, gov_genie_benchmarks y gov_ontology_hygiene (IA, Genie y Ontology inactivos en ola 1).
 resources:
   jobs:
 
@@ -150,61 +151,6 @@ resources:
           environment_key: default
           spark_python_task:
             python_file: ../src/gov_dsar.py
-            parameters: ["--root", "${workspace.file_path}", "--gov-catalog", "${var.gov_catalog}",
-                         "--data-catalog", "${var.data_catalog}", "--env", "${bundle.target}"]
-
-    gov_ai_eval:
-      name: gov_ai_eval
-      description: "[IA/HITL] Evalúa predicciones contra ground truth. Ejecutar antes de promover un modelo/agente."
-      tags: {cost_center: gobierno-datos, component: gov-as-code}
-      parameters:
-        - {name: ai_asset_id, default: AI-001}
-        - {name: predictions_table, default: "${var.data_catalog}.gold.predicciones"}
-        - {name: dataset, default: golden-set-v1}
-      environments:
-        - environment_key: default
-          spec: {environment_version: "2", dependencies: [pyyaml, mlflow]}
-      tasks:
-        - task_key: evaluate
-          environment_key: default
-          spark_python_task:
-            python_file: ../src/gov_ai_eval.py
-            parameters: ["--root", "${workspace.file_path}", "--gov-catalog", "${var.gov_catalog}",
-                         "--data-catalog", "${var.data_catalog}", "--env", "${bundle.target}",
-                         "--ai-asset-id", "{{job.parameters.ai_asset_id}}",
-                         "--predictions-table", "{{job.parameters.predictions_table}}",
-                         "--dataset", "{{job.parameters.dataset}}"]
-
-    gov_genie_benchmarks:
-      name: gov_genie_benchmarks
-      description: "[GENIE/ONT] Ejecuta benchmarks de Genie Agents; falla bajo el pass rate mínimo."
-      tags: {cost_center: gobierno-datos, component: gov-as-code}
-      email_notifications: {on_failure: ["${var.alert_email}"]}
-      schedule: {quartz_cron_expression: "0 0 7 ? * MON", timezone_id: UTC, pause_status: UNPAUSED}
-      environments:
-        - environment_key: default
-          spec: {environment_version: "2", dependencies: [pyyaml, databricks-sdk]}
-      tasks:
-        - task_key: run_benchmarks
-          environment_key: default
-          spark_python_task:
-            python_file: ../src/gov_genie_benchmarks.py
-            parameters: ["--root", "${workspace.file_path}", "--gov-catalog", "${var.gov_catalog}",
-                         "--data-catalog", "${var.data_catalog}", "--env", "${bundle.target}"]
-
-    gov_ontology_hygiene:
-      name: gov_ontology_hygiene
-      description: "[ONT] Propone deprecar activos sin uso (trimestral)."
-      tags: {cost_center: gobierno-datos, component: gov-as-code}
-      schedule: {quartz_cron_expression: "0 0 8 1 1,4,7,10 ?", timezone_id: UTC, pause_status: UNPAUSED}
-      environments:
-        - environment_key: default
-          spec: {environment_version: "2", dependencies: [pyyaml]}
-      tasks:
-        - task_key: hygiene
-          environment_key: default
-          spark_python_task:
-            python_file: ../src/gov_ontology_hygiene.py
             parameters: ["--root", "${workspace.file_path}", "--gov-catalog", "${var.gov_catalog}",
                          "--data-catalog", "${var.data_catalog}", "--env", "${bundle.target}"]
 

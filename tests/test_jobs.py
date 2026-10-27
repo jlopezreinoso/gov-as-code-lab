@@ -80,7 +80,8 @@ def test_itsm_genie_y_evaluacion():
 def test_alertas_y_bundle_referencian_archivos_existentes():
     assert len(list((ROOT / "governance/alerts").glob("*.sql"))) >= 5
     jobs = yaml.safe_load((ROOT / "resources/gov_jobs.yml").read_text(encoding="utf-8"))["resources"]["jobs"]
-    assert len(jobs) == 10
+    # LAB: 7 jobs (sin gov_ai_eval, gov_genie_benchmarks, gov_ontology_hygiene: IA/Genie/Ontology inactivos)
+    assert set(jobs) == {"gov_bootstrap", "gov_sync", "gov_reconcile", "gov_retention", "gov_access_review", "gov_dsar", "gov_itsm_sync"}
     for name, job in jobs.items():
         for t in job["tasks"]:
             f = (ROOT / "resources" / t["spark_python_task"]["python_file"]).resolve()

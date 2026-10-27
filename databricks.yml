@@ -1,10 +1,10 @@
 # Bundle de Gobierno como Código (Declarative Automation Bundles).
-# Despliega código y YAML al workspace y define los 10 jobs de gobierno y la App de decisiones.
+# Copia LAB para gov_manual_lab: 7 jobs de gobierno, SIN la App (costo); decisiones humanas por registro manual.
 bundle:
-  name: gov-as-code
+  name: gov-as-code-lab
 
 include:
-  - resources/*.yml
+  - resources/gov_jobs.yml   # LAB: gov_app.yml excluido a propósito (acta LAB-001 / 08_BITACORA §4)
 
 variables:
   gov_catalog:
@@ -49,7 +49,18 @@ targets:
     mode: development
     default: true
     workspace:
-      host: https://<workspace-dev>.cloud.databricks.com   # reemplazar
+      host: https://adb-1754516251450588.8.azuredatabricks.net
+    variables:                       # LAB: mapeo a los grupos g_gov_lab_* (EXC-06 por SoD)
+      gov_catalog: gov_dev           # ADR-006: no usar "governance" (MVP de fraude)
+      data_catalog: gov_manual_lab
+      owner_group: g_gov_lab_admin
+      deployer_group: g_gov_lab_admin
+      runner_group: g_gov_lab_etl    # contiene sp_etl_pagos (ADR-003)
+      app_group: g_gov_lab_admin     # sin App en el lab
+      readers_group: g_gov_lab_admin # EXC-06
+      auditors_group: g_gov_lab_admin # EXC-06
+      warehouse_id: b67cef0696122ed0 # dasboard: serverless, auto-stop 10 min
+      alert_email: jalopez@softconsulting.com.ec
 
   prd:
     mode: production
