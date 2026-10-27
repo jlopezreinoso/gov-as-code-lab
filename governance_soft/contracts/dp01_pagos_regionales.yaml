@@ -1,17 +1,14 @@
-# Contrato DP-01 (expediente 10) → inventory.data_contracts + inventory.contract_columns.
-# gov_reconcile compara este esquema con information_schema.columns y registra el drift.
-# Mientras gold.pagos sea la tabla manual (H-11) se esperan eventos DROP (email_hash, fecha_pago) y NULLABILITY:
-# son la evidencia de la brecha que el pipeline de G4 cierra.
-# Cambio incompatible = versión mayor (N21). H-09 (columna moneda) se decide como 1.1.0.
+# Contrato DP-01 1.0.0 — REEMPLAZADO por 1.1.0 (H-09: columna moneda). Se conserva para trazabilidad (N21).
 kind: contract
 contract_id: DP-01
 version: "1.0.0"
 product_id: DP-01
 uc_object: ${data_catalog}.gold.pagos
-status: VIGENTE
+status: REEMPLAZADO
 compatibility: backward
 approved_by: randrade@labpagos.example (acta LAB-001)
 effective_from: 2026-10-26
+deprecated_at: 2026-10-26
 schema:
   - {name: pago_id,    type: STRING,          nullable: false, is_key: true, classification: interno}
   - {name: pais,       type: STRING,          nullable: false, classification: interno, allowed_values: [EC, PE]}

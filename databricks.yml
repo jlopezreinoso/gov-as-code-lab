@@ -5,6 +5,7 @@ bundle:
 
 include:
   - resources/gov_jobs.yml   # LAB: gov_app.yml excluido a propósito (acta LAB-001 / 08_BITACORA §4)
+  - resources/lab_pagos_pipeline.yml   # pipeline DP-01 (G4)
 
 variables:
   gov_catalog:
@@ -80,6 +81,8 @@ targets:
         gov_dsar:          {run_as: {service_principal_name: "${var.runner_sp}"}}
         gov_access_review: {run_as: {service_principal_name: "${var.runner_sp}"}}
         gov_itsm_sync:     {run_as: {service_principal_name: "${var.runner_sp}"}}
+      pipelines:
+        lab_pagos_medallion: {run_as: {service_principal_name: "${var.runner_sp}"}}
     permissions:                     # el runner debe poder leer el código desplegado en la carpeta del bundle
       - group_name: g_gov_lab_admin  # deployer (EXC-06): conserva la administración de la carpeta y los jobs
         level: CAN_MANAGE
@@ -94,7 +97,7 @@ targets:
       host: https://<workspace-prd>.cloud.databricks.com   # reemplazar
       root_path: /Workspace/Shared/.bundle/${bundle.name}/${bundle.target}
     variables:
-      gov_catalog: gov_prd
-      data_catalog: ventas_prd
+      gov_catalog: gov_prd           # ADR-006: <propósito>_<ambiente>
+      data_catalog: pagos_prd        # catálogo de datos real del dominio Pagos (P05: <dominio>_<ambiente>)
     run_as:
       service_principal_name: ${var.deployer_sp}   # GOV-DEV-001: PROD solo con el SP de despliegue

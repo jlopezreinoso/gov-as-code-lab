@@ -1,0 +1,16 @@
+# Pipeline Lakeflow del producto DP-01 (expediente 19 LINEAGE y 27 TARGET_ARCHITECTURE). Serverless.
+# Corre como el runner (sp_etl_pagos): es el owner de bronze.pagos_raw, silver.pagos y gold.pagos.
+resources:
+  pipelines:
+    lab_pagos_medallion:
+      name: lab_pagos_medallion
+      catalog: ${var.data_catalog}
+      schema: silver
+      serverless: true
+      continuous: false
+      libraries:
+        - file: {path: ../src/pipelines/pagos_medallion.py}
+      configuration:
+        data_catalog: ${var.data_catalog}
+        landing_path: /Volumes/${var.data_catalog}/bronze/landing/payhub/
+      tags: {cost_center: CC-PAG-001, component: dp01}

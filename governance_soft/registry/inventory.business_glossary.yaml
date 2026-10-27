@@ -49,6 +49,14 @@ rows:
     steward: dvega@labpagos.example
     status: APROBADO
     effective_from: 2026-10-26
+  - term_id: TERM-MONEDA
+    domain_id: DOM-PAGOS
+    term: Moneda del pago
+    definition: "Moneda del monto, ISO 4217: USD en Ecuador, PEN en Perú. No sumar montos de monedas distintas."
+    owner: randrade@labpagos.example
+    steward: dvega@labpagos.example
+    status: APROBADO
+    effective_from: 2026-10-26
   - term_id: TERM-FECHA-PAGO
     domain_id: DOM-PAGOS
     term: Fecha del pago

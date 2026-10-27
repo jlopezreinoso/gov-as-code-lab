@@ -1,0 +1,20 @@
+# Contrato DP-01 1.1.0 (expediente 10 + H-09) → inventory.data_contracts + inventory.contract_columns.
+# Cambio MENOR (N21): agrega la columna opcional 'moneda'; compatible hacia atrás. Aprobado por el titular el 26-oct-2026.
+# gov_reconcile compara este esquema con information_schema.columns y registra el drift.
+kind: contract
+contract_id: DP-01
+version: "1.1.0"
+product_id: DP-01
+uc_object: ${data_catalog}.gold.pagos
+status: VIGENTE
+compatibility: backward
+approved_by: randrade@labpagos.example (acta LAB-001; H-09 aprobado 26-oct-2026)
+effective_from: 2026-10-26
+schema:
+  - {name: pago_id,    type: STRING,          nullable: false, is_key: true, classification: interno}
+  - {name: pais,       type: STRING,          nullable: false, classification: interno, allowed_values: [EC, PE]}
+  - {name: email,      type: STRING,          nullable: true,  classification: restringido}
+  - {name: email_hash, type: STRING,          nullable: true,  classification: confidencial}
+  - {name: moneda,     type: STRING,          nullable: true,  classification: interno, allowed_values: [USD, PEN]}
+  - {name: monto,      type: "DECIMAL(12,2)", nullable: false, classification: confidencial}
+  - {name: fecha_pago, type: TIMESTAMP,       nullable: false, classification: interno}
