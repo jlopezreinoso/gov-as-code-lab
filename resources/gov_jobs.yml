@@ -85,7 +85,8 @@ resources:
           spark_python_task:
             python_file: ../src/gov_reconcile.py
             parameters: ["--root", "${workspace.file_path}", "--gov-catalog", "${var.gov_catalog}",
-                         "--data-catalog", "${var.data_catalog}", "--env", "${bundle.target}"]
+                         "--data-catalog", "${var.data_catalog}", "--env", "${bundle.target}",
+                         "--only", "schema,controls,dq"]   # LAB: settings requiere admin; lo revisa el deployer (manual)
         - task_key: alerts                 # falla si hay alertas → correo on_failure
           depends_on: [{task_key: reconcile}]
           run_if: ALL_DONE
