@@ -3,7 +3,8 @@ from pathlib import Path
 import pytest
 
 from gov_dsar import count_sql, dsar_delete_sql
-from gov_specs import SpecError, build_rows, diff_schema, load_specs, split_targets, sql_files, subst, validate
+from gov_specs import (SpecError, build_rows, diff_schema, expired_files, load_specs, split_targets, sql_files,
+                       subst, validate)
 from run_sql_file import statements
 
 
@@ -20,6 +21,15 @@ def test_h16_borrar_solo_en_tablas_base_y_recalcular_derivadas():
     assert count_sql("c.gold.pagos", "email", h).startswith("SELECT count(*) AS n FROM c.gold.pagos WHERE sha2(")
     with pytest.raises(ValueError):
         dsar_delete_sql("c.bronze.pagos_raw", "email; DROP", h)
+
+
+def test_h18b_solo_vencen_archivos_mas_viejos_que_la_retencion():
+    dia, ahora = 86_400_000, 100 * 86_400_000
+    entries = [{"path": "/Volumes/c/b/landing/viejo.csv", "is_directory": False, "last_modified": ahora - 31 * dia},
+               {"path": "/Volumes/c/b/landing/limite.csv", "is_directory": False, "last_modified": ahora - 30 * dia},
+               {"path": "/Volumes/c/b/landing/nuevo.csv", "is_directory": False, "last_modified": ahora - 1 * dia},
+               {"path": "/Volumes/c/b/landing/payhub", "is_directory": True, "last_modified": ahora - 90 * dia}]
+    assert expired_files(entries, ahora, 30) == ["/Volumes/c/b/landing/viejo.csv"]
 
 ROOT = Path(__file__).resolve().parents[1]
 VARS = {"gov_catalog": "gov_dev", "data_catalog": "gov_manual_lab", "env": "dev"}

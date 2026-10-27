@@ -10,10 +10,48 @@ Para cada tabla etiquetada:
     las streaming tables las mantiene el pipeline).
 H-16: las vistas materializadas no admiten DELETE: se recalculan desde su tabla base con un refresh del pipeline
 (--refresh-pipeline) cuando se purgó algo.
+H-18b: los VOLUMES con tag retention_policy (p. ej. el landing de archivos crudos) se purgan por antigüedad de
+archivo (última modificación > retention_days) con la Files API; cada volume deja una fila en purge_log.
 """
 from __future__ import annotations
 
-from gov_specs import base_parser, split_targets
+from gov_specs import base_parser, expired_files, split_targets
+
+
+def _list_files(w, path: str) -> list[dict]:
+    """Lista recursiva de un directorio de volume (Files API)."""
+    out = []
+    for e in w.files.list_directory_contents(path):
+        out.append({"path": e.path, "is_directory": bool(e.is_directory), "last_modified": e.last_modified or 0})
+        if e.is_directory:
+            out += _list_files(w, e.path)
+    return out
+
+
+def purge_volumes(spark, gov, policies: dict, holds: set) -> int:
+    """H-18b: borra los archivos vencidos de cada volume etiquetado con retention_policy."""
+    import time
+    from databricks.sdk import WorkspaceClient
+    w, now_ms, total = WorkspaceClient(), int(time.time() * 1000), 0
+    vols = spark.sql("""SELECT catalog_name, schema_name, volume_name, tag_value AS policy_id
+                        FROM system.information_schema.volume_tags WHERE tag_name = 'retention_policy'""").collect()
+    for v in vols:
+        uc_object, pol = f"{v.catalog_name}.{v.schema_name}.{v.volume_name}", policies.get(v.policy_id)
+        if pol is None:
+            print(f"{uc_object}: política '{v.policy_id}' no definida → revisar tags")
+            continue
+        if uc_object in holds:
+            gov.log_purge(uc_object, v.policy_id, 0, False, "OMITIDO: legal hold activo")
+            continue
+        files = _list_files(w, f"/Volumes/{v.catalog_name}/{v.schema_name}/{v.volume_name}")
+        expired = expired_files(files, now_ms, pol.retention_days)
+        for f in expired:
+            w.files.delete(f)
+        gov.log_purge(uc_object, v.policy_id, len(expired), False,
+                      f"ARCHIVOS: {len(expired)} de {sum(not f['is_directory'] for f in files)} borrados por antigüedad")
+        print(f"{uc_object}: {len(expired)} archivos purgados")
+        total += len(expired)
+    return total
 
 
 def purge_sql(uc_object: str, column: str, retention_days: int) -> str:
@@ -68,10 +106,12 @@ def main() -> None:
         purged += max(deleted, 0)
         print(f"{t.uc_object}: {deleted} filas purgadas")
 
+    files_purged = purge_volumes(spark, gov, policies, holds)
     state = refresh_pipeline(a.refresh_pipeline) if purged and derived and a.refresh_pipeline else "NO_REQUERIDO"
     for t in derived:
         gov.log_purge(t.uc_object, t.policy_id, 0, False, f"DERIVADA: recalculada por refresh del pipeline ({state})")
-    print(f"tablas base={len(base)} derivadas={len(derived)} filas purgadas={purged} refresh={state}")
+    print(f"tablas base={len(base)} derivadas={len(derived)} filas purgadas={purged} "
+          f"archivos purgados={files_purged} refresh={state}")
 
 
 if __name__ == "__main__":

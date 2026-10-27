@@ -5,7 +5,7 @@ table: privacy.retention_policies
 keys: [policy_id]
 rows:
   - {policy_id: RET-GOV-EVENTS,   data_class: Eventos técnicos del catálogo de gobierno, retention_days: 400,  archive_after_days: 0,    delete_after_days: 400,  legal_basis: POL-05,                                  ttl_mechanism: JOB}
-  - {policy_id: RET-PAG-LANDING,  data_class: Archivos crudos del extracto PayHub,       retention_days: 30,   archive_after_days: 0,    delete_after_days: 30,   legal_basis: Minimización (DPIA),                     ttl_mechanism: JOB}
+  - {policy_id: RET-PAG-LANDING,  data_class: Archivos crudos del extracto PayHub (volume bronze.landing; H-18b), retention_days: 30,   archive_after_days: 0,    delete_after_days: 30,   legal_basis: Minimización (DPIA),                     ttl_mechanism: JOB}
   - {policy_id: RET-PAG-BRONZE,   data_class: bronze.pagos_raw,                          retention_days: 90,   archive_after_days: 0,    delete_after_days: 90,   legal_basis: Minimización (DPIA),                     ttl_mechanism: JOB}
   - {policy_id: RET-PAG-TRANSACC, data_class: Registro del pago (silver y gold),         retention_days: 2555, archive_after_days: 1825, delete_after_days: 2555, legal_basis: "Tributaria/contable, VALIDAR con Legal (REG-08)", ttl_mechanism: JOB}
   - {policy_id: RET-PAG-EMAIL,    data_class: email en claro (silver y gold),            retention_days: 730,  archive_after_days: 0,    delete_after_days: 730,  legal_basis: "Minimización (DPIA): email = NULL, se conserva email_hash", ttl_mechanism: CUSTOM}

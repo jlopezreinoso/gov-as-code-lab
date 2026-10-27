@@ -2,6 +2,9 @@
 -- Requiere que el pipeline lab_pagos_medallion ya haya publicado las tablas (orden: bootstrap → pipeline → sync).
 -- retention_policy / retention_column / dsar_subject_key son los tags que leen gov_retention y gov_dsar.
 
+-- bronze.landing (volume con los CSV crudos de PayHub): H-18b, gov_retention purga archivos > 30 días
+ALTER VOLUME ${data_catalog}.bronze.landing SET TAGS ('gov_lab_domain' = 'pagos', 'gov_lab_owner' = 'randrade@labpagos.example', 'gov_lab_steward' = 'dvega@labpagos.example', 'gov_lab_sensitivity' = 'restringido', 'gov_lab_retention' = '30d', 'retention_policy' = 'RET-PAG-LANDING');
+
 -- bronze.pagos_raw (streaming table)
 ALTER TABLE ${data_catalog}.bronze.pagos_raw SET TAGS ('gov_lab_domain' = 'pagos', 'gov_lab_owner' = 'randrade@labpagos.example', 'gov_lab_steward' = 'dvega@labpagos.example', 'gov_lab_sensitivity' = 'restringido', 'gov_lab_retention' = '90d', 'retention_policy' = 'RET-PAG-BRONZE', 'retention_column' = '_ingest_ts', 'dsar_subject_key' = 'email');
 ALTER TABLE ${data_catalog}.bronze.pagos_raw ALTER COLUMN pais SET TAGS ('gov_lab_country' = 'country_code');

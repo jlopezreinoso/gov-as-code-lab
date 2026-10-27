@@ -213,6 +213,13 @@ def split_targets(rows) -> tuple[list, list]:
     return base, [r for r in rows if r not in base]
 
 
+def expired_files(entries, now_ms: int, retention_days: int) -> list[str]:
+    """H-18b: archivos (no carpetas) de un volume cuya última modificación supera la retención.
+    entries: dicts con 'path', 'is_directory' y 'last_modified' (epoch ms), como devuelve la Files API."""
+    limit = now_ms - int(retention_days) * 86_400_000
+    return [e["path"] for e in entries if not e["is_directory"] and int(e["last_modified"]) < limit]
+
+
 def pending_migrations(files: list[str], applied: set[str]) -> list[str]:
     """Migraciones NNNN_descripcion.sql aún no aplicadas, en orden numérico."""
     def num(f):
